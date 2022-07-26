@@ -1,0 +1,58 @@
+{
+  "name": "cloumize-api",
+  "version": "1.0.0",
+  "description": "Cloumize API",
+  "main": "./src/index.ts",
+  "engines": {
+    "node": "12.x",
+    "npm": "8.x"
+  },
+  "scripts": {
+    "start": "nodemon src/index.ts"
+  },
+  "keywords": [
+    "typescript",
+    "node",
+    "express"
+  ],
+  "author": "Change the block",
+  "license": "ISC",
+  "dependencies": {
+    "@types/abstract-leveldown": "^5.0.2",
+    "@types/express": "^4.17.13",
+    "@types/mysql": "^2.15.19",
+    "@types/node": "^16.10.3",
+    "argon2": "^0.28.2",
+    "celebrate": "^15.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.6.0",
+    "express": "^4.17.1",
+    "express-jwt": "^6.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.7.0",
+    "nodemon": "^2.0.13",
+    "ts-node": "^10.4.0",
+    "typedi": "^0.10.0",
+    "typescript": "^4.5.4",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express-jwt": "^6.0.2",
+    "@types/jsonwebtoken": "^8.5.5",
+    "@types/uuid": "^8.3.1",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "prettier": "^2.4.1",
+    "tsconfig-paths": "^3.11.0",
+    "tslint": "^6.1.3"
+  }
+}
