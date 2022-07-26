@@ -1,3 +1,4 @@
+import 'reflect-metadata' 
 import express from 'express'
 import CONFIG from './config'
 import loader from './loaders'

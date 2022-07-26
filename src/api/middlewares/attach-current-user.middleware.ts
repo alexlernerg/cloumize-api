@@ -1,5 +1,4 @@
 // import { Container } from 'typedi'
-// import { IUser } from '../../interfaces/user.interface'
 // import UserModel from './../../models/user.model'
 
 // /**
@@ -14,7 +13,7 @@
 
 //   try {
 //     const response = await userModel.SignIn(email)
-//     const currentUser: IUser = response[0]
+//     const currentUser: any = response[0]
 
 //     if (!currentUser) {
 //       return res.sendStatus(401)

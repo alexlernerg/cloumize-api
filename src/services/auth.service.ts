@@ -27,11 +27,11 @@ export default class AuthService {
 
     console.info('Hashing password')
 
-    const isUserResitered = await this.isUserRegistered(userInputDTO.email)
+    // const isUserResitered = await this.isUserRegistered(userInputDTO.email)
 
-    if (isUserResitered) {
-      throw new Error('Usuario ya registrado')
-    }
+    // if (isUserResitered) {
+    //   throw new Error('Usuario ya registrado')
+    // }
 
     console.info('Creating user db record')
 
@@ -42,14 +42,14 @@ export default class AuthService {
       salt: salt.toString('hex')
     }
 
-    const { insertId } = await this.userModel.SignUp(userRecord)
+    // const { insertId } = await this.userModel.SignUp(userRecord)
 
-    if (!insertId) {
-      throw new Error('El usuario no se ha creado')
-    }
+    // if (!insertId) {
+    //   throw new Error('El usuario no se ha creado')
+    // }
 
     // Store id
-    userRecord.id = insertId
+    // userRecord.id = insertId
 
     // Delete data
     delete userRecord.salt

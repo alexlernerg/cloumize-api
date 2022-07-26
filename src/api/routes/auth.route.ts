@@ -15,7 +15,6 @@ export default (app: Router): void => {
       body: Joi.object({
         email: Joi.string().required(),
         password: Joi.string().required()
-        // publicAddress: Joi.string().required()
       })
     }),
     async (req: Request, res: Response, next: NextFunction) => {

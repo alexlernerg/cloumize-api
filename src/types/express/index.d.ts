@@ -1,25 +1,19 @@
-// /* eslint-disable no-unused-vars */
-// import { IUser } from '../../interfaces/user.interface'
-// import User from '../../models/user.model'
+export {};
 
-// declare global {
-//   namespace Express {
-//     export interface Request {
-//       currentUser: IUser;
-//       body: any;
-//     }
+declare global {
+  namespace Express {
+    export interface Request {
+      currentUser: any;
+      body: any;
+    }
 
-//     export interface Response {
-//       status: number;
-//     }
-//   }
+    export interface Response {
+      status: number;
+    }
+  }
+}
 
-//   namespace Models {
-//     export type UserModel = User;
-//   }
-// }
-
-// declare module '*.json' {
-//   const value: any
-//   export default value
-// }
+declare module '*.json' {
+  const value: any
+  export default value
+}
