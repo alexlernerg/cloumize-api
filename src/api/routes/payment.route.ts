@@ -1,6 +1,6 @@
 import { NextFunction, Router } from 'express'
 import { appConfig } from '../../config'
-import isAuth from '../middlewares/is-auth.middleware'
+// import isAuth from '../middlewares/is-auth.middleware'
 const express = require('express')
 
 // This is your test secret API key.
@@ -15,14 +15,56 @@ export default (app: Router): void => {
   app.use(express.urlencoded({ extended: true }))
   app.use(route)
 
-  route.post('/create-checkout-session', async (req, res, next) => {
-    console.log('req', req.body)
+  route.post('/consulting-price', async (req, res, next) => {
     const prices = await stripe.prices.list({
       lookup_keys: [req.body.lookup_key],
       expand: ['data.product']
     })
-    console.log('prices', prices)
+    res.send({ prices })
+  })
 
+  route.post('/update-price', async (req, res, next) => {
+    const newPrice = 11111 // El precio debe ser enviado desde su backend
+    const product = 'Cloumize' // El producto a actualizar debe ser enviado desde su backend
+
+    // Miramos todas las subscripciones
+    const subscriptions = await stripe.subscriptions.list({
+      limit: 3
+    })
+
+    // Seleccionamos el producto sobre el que queremos modificar el precio
+    const products = await stripe.products.list({
+      limit: 3
+    })
+    const productChooosed = products.data.filter((p: any) => p.name === product)
+
+    // Actualizamos el precio
+    const price = await stripe.prices.create({
+      unit_amount: newPrice,
+      currency: 'usd',
+      recurring: { interval: 'month' },
+      product: productChooosed[0].id
+    })
+
+    const subscription = await stripe.subscriptions.retrieve(subscriptions.data[0].id)
+    stripe.subscriptions.update(subscriptions.data[0].id, {
+      cancel_at_period_end: false,
+      proration_behavior: 'create_prorations',
+      items: [
+        {
+          id: subscription.items.data[0].id,
+          price: price.id
+        }
+      ]
+    })
+    res.send({ subscription })
+  }) // Admin route
+
+  route.post('/create-checkout-session', async (req, res, next) => {
+    const prices = await stripe.prices.list({
+      lookup_keys: [req.body.lookup_key],
+      expand: ['data.product']
+    })
     const session = await stripe.checkout.sessions.create({
       billing_address_collection: 'auto',
       line_items: [
@@ -34,11 +76,8 @@ export default (app: Router): void => {
       ],
       mode: 'subscription',
       success_url: `${appConfig.FRONT_URL}/user/account?success=success&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${appConfig.FRONT_URL}/cancel.html`
-      // success.html?session_id={CHECKOUT_SESSION_ID}
+      cancel_url: `${appConfig.FRONT_URL}/error`
     })
-    console.log('session', session)
-
     res.send({ sessionURL: session.url })
   })
 
