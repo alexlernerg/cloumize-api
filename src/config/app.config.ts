@@ -8,7 +8,8 @@ export default {
   /**
    * JWT CONFIG
    */
-  JWT_SECRECT: 'JWT_SECRECT_MANDANGA@',
+  JWT_SECRECT_USER: 'JWT_SECRECT_MANDANGA@_USER',
+  JWT_SECRECT_ADMIN: 'JWT_SECRECT_MANDANGA@_ADMIN',
   JWT_ALGORITHM: 'HS256',
 
   /**
@@ -50,7 +51,8 @@ export default {
   /**
    * Madrid holidays
    */
-  HOLIDAY_API: 'https://datos.comunidad.madrid/catalogo/api/3/action/datastore_search?resource_id=2f38a998-b000-436e-aecd-2e87f4e4eb84',
+  HOLIDAY_API:
+    'https://datos.comunidad.madrid/catalogo/api/3/action/datastore_search?resource_id=2f38a998-b000-436e-aecd-2e87f4e4eb84',
 
   /**
    * Document path

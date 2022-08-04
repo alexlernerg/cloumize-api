@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import authRoute from './routes/auth.route'
+import authRoute from './routes/user.auth.route'
 import userRoute from './routes/user.route'
 import stripeRoute from './routes/payment.route'
 import provinceRoute from './routes/data.route'
