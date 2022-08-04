@@ -4,7 +4,7 @@ import { User, UserLoginOutput } from '../../interfaces/user.interface'
 import argon2 from 'argon2'
 import { Service } from 'typedi'
 import { UserModel } from '../../models'
-import { UserHelper } from '../..//helpers/user.helper'
+import { UserHelper } from '../../helpers/user.helper'
 import { randomBytes } from 'crypto'
 
 @Service()
@@ -105,7 +105,6 @@ export default class AuthService {
 
     const sign = {
       id: user.idUser,
-      idEmployee: user?.idEmployee,
       email: user.email,
       exp: exp.getTime() / 1000
     }
@@ -120,6 +119,6 @@ export default class AuthService {
      * more information here: https://softwareontheroad.com/you-dont-need-passport
      */
 
-    return jwt.sign(sign, appConfig.JWT_SECRECT)
+    return jwt.sign(sign, appConfig.JWT_SECRECT_USER)
   }
 }

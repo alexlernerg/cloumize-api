@@ -6,14 +6,14 @@ import { UserInput, User, PasswordChange } from './../interfaces/user.interface'
 import argon2 from 'argon2'
 import EmailService from './auth/email.service'
 import jwt from 'jsonwebtoken'
-import { UserModel } from './../models'
+import { AdminModel } from './../models'
 
 @Service()
-export default class UserService {
+export default class Admin {
   /**
    * Constructor
    */
-  constructor(private userModel: UserModel, private userHelper: UserHelper, private emailService: EmailService) {}
+  constructor(private adminModel: AdminModel, private userHelper: UserHelper, private emailService: EmailService) {}
 
   /**
    * It creates a new user
@@ -36,7 +36,7 @@ export default class UserService {
       salt: salt.toString('hex')
     }
 
-    const { insertId } = await this.userModel.Create(newUser)
+    const { insertId } = await this.adminModel.Create(newUser)
 
     if (!insertId) {
       throw new Error('El usuario no se ha creado')
@@ -54,7 +54,7 @@ export default class UserService {
    * @returns a promise that resolves to an object with a boolean property.
    */
   async ChangePassword(idUser: number, data: PasswordChange): Promise<{ isPasswordChanged: boolean }> {
-    const response = await this.userModel.Get<User>(idUser)
+    const response = await this.adminModel.Get<User>(idUser)
     const user = response[0]
 
     if (!user) {
@@ -76,7 +76,7 @@ export default class UserService {
       salt: salt.toString('hex')
     }
 
-    const { changedRows } = await this.userModel.Put<User>(idUser, changeData)
+    const { changedRows } = await this.adminModel.Put<User>(idUser, changeData)
 
     if (!changedRows) {
       throw new Error('No se ha actualizado la contraseña')
@@ -93,7 +93,7 @@ export default class UserService {
    */
   async RecoverPassword(emailInput: string): Promise<{ emailSended: boolean }> {
     try {
-      const user: User[] = await this.userModel.GetByField({ key: 'email', value: emailInput })
+      const user: User[] = await this.adminModel.GetByField({ key: 'email', value: emailInput })
       const { email, salt } = user[0]
 
       if (!email) {
@@ -117,13 +117,10 @@ export default class UserService {
    * @param {string} password - The new password
    * @returns an object with a boolean property called passwordChanged.
    */
-  async ChangeRecoveredPassword(
-    token: string,
-    password: string
-  ): Promise<{ passwordChanged: boolean }> {
+  async ChangeRecoveredPassword(token: string, password: string): Promise<{ passwordChanged: boolean }> {
     try {
       const { salt, email } = JSON.parse(atob(token.split('.')[1]))
-      const response = await this.userModel.GetByField({ value: 'email', key: email })
+      const response = await this.adminModel.GetByField({ value: 'email', key: email })
 
       if (!response) {
         throw new Error('Ha habido un error. Inténtelo de nuevo')
@@ -137,7 +134,7 @@ export default class UserService {
 
       const newUser = { saltToSave, hashedPassword, salt }
 
-      const { changedRows } = await this.userModel.Put(idUser, newUser)
+      const { changedRows } = await this.adminModel.Put(idUser, newUser)
 
       return { passwordChanged: changedRows > 0 }
     } catch (error) {
@@ -151,7 +148,7 @@ export default class UserService {
    * @returns A boolean value
    */
   private async isUserRegistered(email: string): Promise<boolean> {
-    const result = await this.userModel.GetByField({ key: 'email', value: email })
+    const result = await this.adminModel.GetByField({ key: 'email', value: email })
 
     return result.length > 0
   }
@@ -168,7 +165,7 @@ export default class UserService {
         email,
         salt
       },
-      appConfig.JWT_SECRECT_USER
+      appConfig.JWT_SECRECT_ADMIN
     )
   }
 }

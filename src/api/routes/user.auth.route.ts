@@ -1,5 +1,5 @@
 import { Router, NextFunction } from 'express'
-import AuthService from '../../services/auth/auth.service'
+import AuthService from '../../services/auth/auth.user.service'
 import { Container } from 'typedi'
 import { isAuth, ValidateLogin, ValidateSignUp } from '../middlewares'
 

@@ -1,6 +1,5 @@
 export interface User {
   idUser?: number;
-  idEmployee?: number;
   email?: string;
   password: string;
   salt: string;
