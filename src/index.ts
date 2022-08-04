@@ -1,6 +1,6 @@
-import 'reflect-metadata' 
+import 'reflect-metadata' // We need this in order to use @Decorators
 import express from 'express'
-import CONFIG from './config'
+import { appConfig } from './config'
 import loader from './loaders'
 /**
  * Start app server
@@ -10,10 +10,10 @@ async function startServer (): Promise<any> {
   await loader({ expressApp: app })
 
   app
-    .listen(Number(CONFIG.PORT), '0.0.0.0', () => {
+    .listen(Number(appConfig.PORT), appConfig.HOST, () => {
       console.info(`
       ################################################
-      🛡️  Server listening on port: ${CONFIG.PORT} 🛡️
+      🛡️  Server listening on port: ${appConfig.PORT} 🛡️
       ################################################
     `)
     })

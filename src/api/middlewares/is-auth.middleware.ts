@@ -1,5 +1,5 @@
 import jwt from 'express-jwt'
-import config from '../../config'
+import { appConfig } from '../../config'
 
 /**
  * We are assuming that the JWT will come in a header with the form
@@ -25,11 +25,10 @@ const getTokenFromHeader = (req: any): void => {
 }
 
 const isAuth = jwt({
-  secret: config.JWT_SECRECT, // The _secret_ to sign the JWTs
-  algorithms: [config.JWT_ALGORITHM], // JWT Algorithm
+  secret: appConfig.JWT_SECRECT, // The _secret_ to sign the JWTs
+  algorithms: [appConfig.JWT_ALGORITHM], // JWT Algorithm
   userProperty: 'token', // Use req.token to store the JWT
   getToken: getTokenFromHeader // How to extract the JWT from the request
-
 })
 
 export default isAuth

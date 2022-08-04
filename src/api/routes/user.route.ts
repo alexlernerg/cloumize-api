@@ -1,112 +1,75 @@
-import { celebrate, Joi } from 'celebrate'
-import { Router } from 'express'
+import { NextFunction, Router } from 'express'
 import UserService from './../../services/user.service'
 import { Container } from 'typedi'
-import middlewares from '../middlewares'
+import isAuth from '../middlewares/is-auth.middleware'
+
+import {
+  ValidateChangeRecoveredPassword,
+  ValidatePasswordChange,
+  ValidateRecoverPassword,
+  ValidateUser
+} from '../middlewares/validation.middleware'
+
 const route = Router()
 
 export default (app: Router): void => {
-  app.use('/users', route)
+  app.use(route)
 
-  route.get('/me', middlewares.isAuth, async (req: any, res: any, next: any) => {
-    const userServiceInstance = Container.get(UserService)
-    const { email } = req.token
+  app.post('/user', isAuth, ValidateUser, async (req, res, next) => {
+    const userService = Container.get(UserService)
+    console.info('Calling Post User endpoint with body: %o', req.body)
 
     try {
-      const currentUser = await userServiceInstance.currentUser(email)
+      const { email, password } = req.body
+      const idUser = await userService.Create({ email, password })
 
-      return currentUser ? res.status(200).json(currentUser) : res.sendStatus(401)
+      return res.json({ email, idUser }).status(200)
     } catch (e) {
       console.error('🔥 error: %o', e)
       return next(e)
     }
   })
 
-  route.patch(
-    '/me',
-    middlewares.isAuth,
-    celebrate({
-      body: Joi.object({
-        email: Joi.string().required(),
-        password: Joi.string().required()
-      })
-    }),
-    async (req, res, next) => {
-      const userServiceInstance = Container.get(UserService)
-      const idUser = req['token'].id
+  app.put('/user/update', isAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
+    try {
+      const idUser = Number(req.token.id)
+      const data = req.body
 
-      if (!req.body) {
-        console.error('🔥 Body: %o', null)
-        return next('Something went wrong')
-      }
+      return res.json(await Container.get(UserService).ChangePassword(idUser, data))
+    } catch (e) {
+      console.error('🔥 error: %o', e)
+      return next(e)
+    }
+  })
 
+  app.post('/user/recover-password', ValidateRecoverPassword, async (req: any, res, next: NextFunction) => {
+    try {
+      const { email } = req.body
+
+      return res.json(await Container.get(UserService).RecoverPassword(email)).status(200)
+    } catch (e) {
+      console.error('🔥 error: %o', e)
+      return next(e)
+    }
+  })
+
+  app.post(
+    '/user/change-password/:token',
+    ValidateChangeRecoveredPassword,
+    async (req: any, res, next: NextFunction) => {
       try {
-        const user = await userServiceInstance.Patch(idUser, req.body as any)
-        res.status(200).json({ user })
+        const { password } = req.body
+        const { token } = req.params
+
+        if (!token) {
+          throw new Error('Se ha producido un error, contacte con servicio técnico.')
+        }
+
+        return res.json(await Container.get(UserService).ChangeRecoveredPassword(token, password)).status(200)
       } catch (e) {
         console.error('🔥 error: %o', e)
         return next(e)
       }
     }
   )
-
-  // TODO: idUser es en realidad el email !
-  route.delete('/me', middlewares.isAuth, async (req, res, next) => {
-    const userServiceInstance = Container.get(UserService)
-    const idUser = req['token'].email
-    // console.log('idUSer', idUser)
-
-    try {
-      const isDelete = await userServiceInstance.Delete(idUser)
-      res.status(200).json(isDelete)
-    } catch (e) {
-      console.error('🔥 error: %o', e)
-      return next(e)
-    }
-  })
-
-  // Recovery password
-  route.post('/password_reset', async (req, res, next) => {
-    const { email } = req.body
-    const userServiceInstance = Container.get(UserService)
-
-    if (!req.body) {
-      console.error('🔥 Body: %o', null)
-      return next('Something went wrong')
-    }
-
-    try {
-      const response = await userServiceInstance.resetPassword(email)
-      res.status(200).send(response)
-    } catch (e) {
-      console.error('🔥 error: %o', e)
-      return next(e)
-    }
-  })
-
-  // Pendiente: Eliminar.
-  // route.get('/password_reset/:token', async (req, res, next) => {
-  //   const token = req.params.token
-  //   const userServiceInstance = Container.get(UserService)
-  //   try {
-  //     const response = await userServiceInstance.doResetPassword(token)
-  //     res.status(200).send(response)
-  //   } catch (e) {
-  //     console.error('🔥 error: %o', e)
-  //     return next(e)
-  //   }
-  // })
-
-  route.put('/password_reset', async (req, res, next) => {
-    const pastToken = req.body.tokenUser
-    const password = req.body.password
-    const userServiceInstance = Container.get(UserService)
-    try {
-      const response = await userServiceInstance.changePassword(pastToken, password)
-      res.status(200).send(response)
-    } catch (e) {
-      console.error('🔥 error: %o', e)
-      return next(e)
-    }
-  })
 }

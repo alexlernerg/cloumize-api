@@ -1,6 +1,6 @@
 import express, { NextFunction } from 'express'
 import cors from 'cors'
-import config from '../config'
+import { appConfig } from '../config'
 import routes from '../api'
 
 interface IExpress {
@@ -18,7 +18,7 @@ export default ({ app }: IExpress): void => {
   // Enable cors
   app.use(
     cors({
-      origin: process.env.CORS_ORIGIN || 'http://localhost:3000', // URL React
+      origin: [appConfig.FRONT_URL, appConfig.DEV_URL],
       allowedHeaders: ['Content-Type', 'Authorization']
     })
   )
@@ -27,7 +27,7 @@ export default ({ app }: IExpress): void => {
   app.use(express.json())
 
   // Load API routes
-  app.use(config.API.PREFIX, routes())
+  app.use(appConfig.API.PREFIX, routes())
 
   /// catch 404 and forward to error handler
   app.use((req, res, next: NextFunction) => {

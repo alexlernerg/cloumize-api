@@ -48,3 +48,8 @@ Thumbs.db
 *.mov
 *.wmv
 
+#.env files
+.env
+
+# Documents
+src/api/documents/*

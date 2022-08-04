@@ -1,4 +1,4 @@
-import config from '../../config'
+import { appConfig } from './../../config'
 
 /**
  * Attach user to req.currentUser
@@ -10,7 +10,7 @@ const validateApiKey = (req, res, next): Promise<any> => {
   const API_KEY = req.header('API_KEY')
 
   if (API_KEY) {
-    if (config.API_KEY === API_KEY) {
+    if (appConfig.API_KEY === API_KEY) {
       return next()
     } else {
       console.info('🔥 Invalid API_KEY: %o', API_KEY)
