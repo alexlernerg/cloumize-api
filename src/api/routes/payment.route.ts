@@ -1,11 +1,11 @@
 import { NextFunction, Router } from 'express'
-import { appConfig } from 'src/config'
+import { appConfig } from '../../config'
 import isAuth from '../middlewares/is-auth.middleware'
 const express = require('express')
 
 // This is your test secret API key.
 const stripe = require('stripe')(
-  'sk_test_51LScGFISsYqj8jlZBYuU4kHy8bi172K1CEFGEFOacs2n2qyaDmBux2Mt9BN8W5x2BQDLpGEWqbHFVusODmSA9hfD00GnQkaQQq'
+  'sk_test_51LSlY8GDFiXM20oc9zV7T4a3adJ9kf0mTv6RGEvFr3B5id1Yc9zpTAyMDvitzWrKVwEJVvK8nup9UOGQhby40lEO00ChKgSTZg'
 )
 
 const route = Router()
@@ -13,14 +13,15 @@ const route = Router()
 export default (app: Router): void => {
   app.use(express.static('public'))
   app.use(express.urlencoded({ extended: true }))
-  app.use(express.json())
   app.use(route)
 
-  app.get('/create-checkout-session', isAuth, async (req, res, next) => {
+  route.post('/create-checkout-session', async (req, res, next) => {
+    console.log('req', req.body)
     const prices = await stripe.prices.list({
       lookup_keys: [req.body.lookup_key],
       expand: ['data.product']
     })
+    console.log('prices', prices)
 
     const session = await stripe.checkout.sessions.create({
       billing_address_collection: 'auto',
@@ -32,16 +33,19 @@ export default (app: Router): void => {
         }
       ],
       mode: 'subscription',
-      success_url: `${appConfig.FRONT_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${appConfig.FRONT_URL}/user/account?success=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${appConfig.FRONT_URL}/cancel.html`
+      // success.html?session_id={CHECKOUT_SESSION_ID}
     })
+    console.log('session', session)
 
-    res.redirect(303, session.url)
+    res.send({ sessionURL: session.url })
   })
 
-  app.post('/create-portal-session', isAuth, async (req: any, res, next: NextFunction) => {
+  route.post('/create-portal-session', async (req: any, res, next: NextFunction) => {
     // For demonstration purposes, we're using the Checkout session to retrieve the customer ID.
     // Typically this is stored alongside the authenticated user in your database.
+    console.log('req.body', req.body)
     const { sessionId } = req.body
     const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId)
 
@@ -53,11 +57,12 @@ export default (app: Router): void => {
       customer: checkoutSession.customer,
       return_url: returnUrl
     })
+    console.log('portalSession', portalSession)
 
-    res.redirect(303, portalSession.url)
+    res.send({ portalSession: portalSession.url })
   })
 
-  app.post('/webhook', express.raw({ type: 'application/json' }), (request, response) => {
+  route.post('/webhook', express.raw({ type: 'application/json' }), (request, response) => {
     let event = request.body
     // Replace this endpoint secret with your endpoint's unique secret
     // If you are testing with the CLI, find the secret by running 'stripe listen'

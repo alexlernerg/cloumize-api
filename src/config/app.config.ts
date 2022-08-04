@@ -58,7 +58,7 @@ export default {
 
   DOCUMENT_PATH: './src/uploads/documents',
 
-  FRONT_URL: process.env.CORS_ORIGIN || 'http://localhost:4200',
+  FRONT_URL: process.env.CORS_ORIGIN || 'http://localhost:3000',
 
   DEV_URL: process.env.NODE_ENV !== 'production' ? 'http://192.168.0.14:4200' : '',
 
