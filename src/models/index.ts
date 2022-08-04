@@ -36,6 +36,17 @@ export class SubscriptionModel extends BaseModel {
 }
 
 @Service()
+export class TypesModel extends BaseModel {
+  /**
+   * A constructor for the class.
+   * @param {any} pointer - any
+   */
+  constructor() {
+    super('type', 'idType', appConfig.DATABASE)
+  }
+}
+
+@Service()
 export class DataModel extends BaseModel {
   /**
    * A constructor for the class.
