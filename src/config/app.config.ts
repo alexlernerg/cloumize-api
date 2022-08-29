@@ -16,11 +16,11 @@ export default {
    * DATABASE CONFIG
    */
   DATABASE: {
-    host: 'nuepp3ddzwtnggom.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
+    host: 'database-sandbox.cccmjxkosivs.eu-west-3.rds.amazonaws.com',
     post: '3306',
-    user: 'vhzhacoj0wxg14f8',
-    password: 'lwl74iy29vejxqw5',
-    database: 'l7d4v386yqib5u70'
+    user: 'ctb_team',
+    password: 'ctb@Cloumize1',
+    database: 'cloumize_dev'
   },
 
   /**
