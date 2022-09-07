@@ -1,13 +1,17 @@
 import { diskStorage, memoryStorage, dataUri } from './upload.middleware'
-import { ValidateLogin, ValidateUser, ValidateSignUp } from './validation.middleware'
-import isAuth from './is-auth.middleware'
+import { ValidateLogin, ValidateUser, ValidateSignUp, ValidateChangeRecoveredPassword, ValidatePasswordChange, ValidateRecoverPassword, ValidateData } from './validation/validation.middleware'
+import { isUserAuth } from './is-auth'
 
 export {
-  isAuth,
+  isUserAuth,
   ValidateLogin,
   ValidateSignUp,
   ValidateUser,
   diskStorage,
   memoryStorage,
-  dataUri
+  dataUri,
+  ValidateChangeRecoveredPassword,
+  ValidatePasswordChange,
+  ValidateRecoverPassword,
+  ValidateData
 }

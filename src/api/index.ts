@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import authRoute from './routes/user.auth.route'
+import authRoute from './routes/auth/user.auth.route'
 import userRoute from './routes/user.route'
 import stripeRoute from './routes/payment.route'
-import provinceRoute from './routes/data.route'
+import dataRoute from './routes/data.route'
 
 /** */
 export default (): Router => {
@@ -11,7 +11,7 @@ export default (): Router => {
   authRoute(app)
   userRoute(app)
   stripeRoute(app)
-  provinceRoute(app)
+  dataRoute(app)
 
   return app
 }

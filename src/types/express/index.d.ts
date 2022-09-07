@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
-import User from '../../models/user.model'
+import { UserModel } from '../../models'
 
 declare global {
   namespace Express {
     export interface Request {
-      currentUser: User;
+      currentUser: UserModel;
       body: any;
     }
 
@@ -14,7 +14,7 @@ declare global {
   }
 
   namespace Models {
-    export type UserModel = User;
+    export type User = UserModel
   }
 }
 

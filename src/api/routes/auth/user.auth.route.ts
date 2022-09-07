@@ -1,7 +1,7 @@
 import { Router, NextFunction } from 'express'
-import AuthService from '../../services/auth/auth.user.service'
+import AuthService from '../../../services/auth/auth.user.service'
 import { Container } from 'typedi'
-import { isAuth, ValidateLogin, ValidateSignUp } from '../middlewares'
+import { isUserAuth, ValidateLogin, ValidateSignUp } from '../../middlewares'
 
 const route = Router()
 
@@ -41,7 +41,7 @@ export default (app: Router): void => {
    * emitted for the session and add it to a black list.
    * It's really annoying to develop that but if you had to, please use Redis as your data store
    */
-  route.post('/logout', isAuth, (req, res, next: NextFunction) => {
+  route.post('/logout', isUserAuth, (req, res, next: NextFunction) => {
     console.info('Calling Sign-Out endpoint with body: %o', req.body)
     try {
       // @TODO AuthService.Logout(req.user) do some clever stuff

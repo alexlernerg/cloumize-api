@@ -2,7 +2,7 @@ import { appConfig } from './../config'
 import { randomBytes } from 'crypto'
 import { Service } from 'typedi'
 import { UserHelper } from './../helpers/user.helper'
-import { UserInput, User, PasswordChange } from './../interfaces/user.interface'
+import { UserInput, User, PasswordChange } from '../types/interfaces/user.interface'
 import argon2 from 'argon2'
 import EmailService from './auth/email.service'
 import jwt from 'jsonwebtoken'
@@ -43,6 +43,54 @@ export default class UserService {
     }
 
     return insertId
+  }
+
+  /**
+   * It takes in a data object, and returns a promise that resolves to the result of the GetByField
+   * function in the dataModel
+   * @param {any} data - {
+   * @returns The dataModel.GetByField() method is being returned.
+   */
+  async ReadByField(data: any): Promise<any> {
+    console.log('-------->', data)
+    const _data = await this.userModel.GetByField(data)
+
+    if (!_data) {
+      throw new Error('Data not found for key-value')
+    }
+
+    return _data
+  }
+
+  /**
+   * It receives an idUser and a data object with the lastPassword and newPassword properties, it
+   * checks if the lastPassword matches the one stored in the database, if it does, it generates a new
+   * salt and a new hashed password, and then it updates the user's password and salt in the database
+   * @param {number} idUser - number, data: PasswordChange
+   * @param {PasswordChange} data - PasswordChange
+   * @returns a promise that resolves to an object with a boolean property.
+   */
+  async Update(idUser: number, data: any): Promise<{ isUpdated: boolean }> {
+    const response = await this.userModel.Get<User>(idUser)
+    const user = response[0]
+
+    if (!user) {
+      throw new Error('Usuario no registrado')
+    }
+
+    const validPassword = await argon2.verify(user.password, data.lastPassword)
+
+    if (!validPassword) {
+      throw new Error('La contraseña anterior no coincide con la guardada')
+    }
+
+    const { changedRows } = await this.userModel.Put<User>(idUser, data)
+
+    if (!changedRows) {
+      throw new Error('No se ha actualizado la contraseña')
+    }
+
+    return { isUpdated: changedRows > 0 }
   }
 
   /**
@@ -117,12 +165,9 @@ export default class UserService {
    * @param {string} password - The new password
    * @returns an object with a boolean property called passwordChanged.
    */
-  async ChangeRecoveredPassword(
-    token: string,
-    password: string
-  ): Promise<{ passwordChanged: boolean }> {
+  async ChangeRecoveredPassword(token: string, password: string): Promise<{ passwordChanged: boolean }> {
     try {
-      const { salt, email } = JSON.parse(atob(token.split('.')[1]))
+      const { salt, email } = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())
       const response = await this.userModel.GetByField({ value: 'email', key: email })
 
       if (!response) {
@@ -168,7 +213,7 @@ export default class UserService {
         email,
         salt
       },
-      appConfig.JWT_SECRECT_USER
+      appConfig.JWT_USER_SECRECT
     )
   }
 }

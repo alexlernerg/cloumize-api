@@ -8,8 +8,7 @@ export default {
   /**
    * JWT CONFIG
    */
-  JWT_SECRECT_USER: 'JWT_SECRECT_MANDANGA@_USER',
-  JWT_SECRECT_ADMIN: 'JWT_SECRECT_MANDANGA@_ADMIN',
+  JWT_USER_SECRECT: 'JWT_SECRECT_MANDANGA@_USER',
   JWT_ALGORITHM: 'HS256',
 
   /**
@@ -27,7 +26,8 @@ export default {
    * API CONFIG
    */
   API: {
-    PREFIX: '/api'
+    PREFIX: '/api',
+    URLS: ['https://aw2xmogbpb.execute-api.eu-west-3.amazonaws.com/insert-arn/ec2-instance-auth-get']
   },
 
   /**
@@ -47,12 +47,6 @@ export default {
       pass: 'pzaittepyjkyxryt'
     }
   },
-
-  /**
-   * Madrid holidays
-   */
-  HOLIDAY_API:
-    'https://datos.comunidad.madrid/catalogo/api/3/action/datastore_search?resource_id=2f38a998-b000-436e-aecd-2e87f4e4eb84',
 
   /**
    * Document path

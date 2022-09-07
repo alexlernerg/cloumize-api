@@ -14,28 +14,6 @@ export class UserModel extends BaseModel {
 }
 
 @Service()
-export class AdminModel extends BaseModel {
-  /**
-   * It's a constructor function that extends the base class and passes in the table name, primary key,
-   * and database name.
-   */
-  constructor() {
-    super('admin', 'idAdmin', appConfig.DATABASE)
-  }
-}
-
-@Service()
-export class SubscriptionModel extends BaseModel {
-  /**
-   * It's a constructor function that extends the base class and passes in the table name, primary key,
-   * and database name.
-   */
-  constructor() {
-    super('subscription', 'idSubscription', appConfig.DATABASE)
-  }
-}
-
-@Service()
 export class TypesModel extends BaseModel {
   /**
    * A constructor for the class.

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { appConfig } from '../../config'
-import { User, UserLoginOutput } from '../../interfaces/user.interface'
+import { User, UserLoginOutput } from '../../types/interfaces/user.interface'
 import argon2 from 'argon2'
 import { Service } from 'typedi'
 import { UserModel } from '../../models'
@@ -119,6 +119,6 @@ export default class AuthService {
      * more information here: https://softwareontheroad.com/you-dont-need-passport
      */
 
-    return jwt.sign(sign, appConfig.JWT_SECRECT_USER)
+    return jwt.sign(sign, appConfig.JWT_USER_SECRECT)
   }
 }

@@ -1,36 +1,47 @@
 import { NextFunction, Router } from 'express'
 import UserService from './../../services/user.service'
 import { Container } from 'typedi'
-import isAuth from '../middlewares/is-auth.middleware'
-
 import {
+  isUserAuth,
   ValidateChangeRecoveredPassword,
   ValidatePasswordChange,
   ValidateRecoverPassword,
   ValidateUser
-} from '../middlewares/validation.middleware'
+} from './../middlewares'
 
 const route = Router()
 
 export default (app: Router): void => {
   app.use(route)
 
-  app.post('/user', isAuth, ValidateUser, async (req, res, next) => {
+  app.get('/me', isUserAuth, ValidateUser, async (req: any, res, next: NextFunction) => {
     const userService = Container.get(UserService)
     console.info('Calling Post User endpoint with body: %o', req.body)
 
     try {
-      const { email, password } = req.body
-      const idUser = await userService.Create({ email, password })
+      const idUser = Number(req.token.id)
+      const userData = await userService.ReadByField({ key: 'id', value: idUser })
 
-      return res.json({ email, idUser }).status(200)
+      return res.json(userData).status(200)
     } catch (e) {
       console.error('🔥 error: %o', e)
       return next(e)
     }
   })
 
-  app.put('/user/update', isAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
+  app.put('/user/update', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
+    try {
+      const idUser = Number(req.token.id)
+      const data = req.body
+
+      return res.json(await Container.get(UserService).Update(idUser, data))
+    } catch (e) {
+      console.error('🔥 error: %o', e)
+      return next(e)
+    }
+  })
+
+  app.put('/user/password-change', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
     try {
       const idUser = Number(req.token.id)
       const data = req.body
