@@ -1,9 +1,12 @@
+/* eslint-disable camelcase */
 export interface User {
   idUser?: number;
   email?: string;
   password: string;
   salt: string;
   deleted?: boolean;
+  created_at?: Date;
+  updated_at?: Date;
 }
 
 export interface UserInput {

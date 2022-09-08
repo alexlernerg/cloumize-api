@@ -20,7 +20,7 @@ export default class UserService {
    * @param {UserInput} user - UserInput: This is the input object that we defined in the schema.
    * @returns The id of the user created
    */
-  async Create(user: UserInput): Promise<number> {
+  async Create(user: UserInput): Promise<{ isCreated: boolean }> {
     const salt = randomBytes(32)
     const password = user.password || this.userHelper.createPassword()
     const hashedPassword = await argon2.hash(password, { salt })
@@ -42,7 +42,7 @@ export default class UserService {
       throw new Error('El usuario no se ha creado')
     }
 
-    return insertId
+    return { isCreated: !!insertId }
   }
 
   /**
@@ -84,6 +84,7 @@ export default class UserService {
       throw new Error('La contraseña anterior no coincide con la guardada')
     }
 
+    data.updated_at = new Date()
     const { changedRows } = await this.userModel.Put<User>(idUser, data)
 
     if (!changedRows) {
@@ -91,6 +92,31 @@ export default class UserService {
     }
 
     return { isUpdated: changedRows > 0 }
+  }
+
+  /**
+   * It receives an idUser and a data object with the lastPassword and newPassword properties, it
+   * checks if the lastPassword matches the one stored in the database, if it does, it generates a new
+   * salt and a new hashed password, and then it updates the user's password and salt in the database
+   * @param {number} idUser - number, data: PasswordChange
+   * @param {PasswordChange} data - PasswordChange
+   * @returns a promise that resolves to an object with a boolean property.
+   */
+  async Delete(idUser: number): Promise<{ isDeleted: boolean }> {
+    const response = await this.userModel.Get<User>(idUser)
+    const user = response[0]
+
+    if (!user) {
+      throw new Error('Usuario no registrado')
+    }
+
+    const { changedRows } = await this.userModel.Delete(idUser)
+
+    if (!changedRows) {
+      throw new Error('No se ha actualizado la contraseña')
+    }
+
+    return { isDeleted: changedRows > 0 }
   }
 
   /**
@@ -124,6 +150,7 @@ export default class UserService {
       salt: salt.toString('hex')
     }
 
+    changeData.updated_at = new Date()
     const { changedRows } = await this.userModel.Put<User>(idUser, changeData)
 
     if (!changedRows) {

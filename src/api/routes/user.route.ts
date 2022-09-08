@@ -12,7 +12,7 @@ import {
 const route = Router()
 
 export default (app: Router): void => {
-  app.use(route)
+  app.use('/user', route)
 
   app.get('/me', isUserAuth, ValidateUser, async (req: any, res, next: NextFunction) => {
     const userService = Container.get(UserService)
@@ -29,7 +29,7 @@ export default (app: Router): void => {
     }
   })
 
-  app.put('/user/update', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
+  app.put('/update', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
     try {
       const idUser = Number(req.token.id)
       const data = req.body
@@ -41,7 +41,18 @@ export default (app: Router): void => {
     }
   })
 
-  app.put('/user/password-change', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
+  app.put('/delete', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
+    try {
+      const idUser = Number(req.token.id)
+
+      return res.json(await Container.get(UserService).Delete(idUser))
+    } catch (e) {
+      console.error('🔥 error: %o', e)
+      return next(e)
+    }
+  })
+
+  app.put('/password-change', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
     try {
       const idUser = Number(req.token.id)
       const data = req.body
@@ -53,7 +64,7 @@ export default (app: Router): void => {
     }
   })
 
-  app.post('/user/recover-password', ValidateRecoverPassword, async (req: any, res, next: NextFunction) => {
+  app.post('/recover-password', ValidateRecoverPassword, async (req: any, res, next: NextFunction) => {
     try {
       const { email } = req.body
 
@@ -65,7 +76,7 @@ export default (app: Router): void => {
   })
 
   app.post(
-    '/user/change-password/:token',
+    '/change-password/:token',
     ValidateChangeRecoveredPassword,
     async (req: any, res, next: NextFunction) => {
       try {

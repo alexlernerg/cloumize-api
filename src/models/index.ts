@@ -9,7 +9,8 @@ export class UserModel extends BaseModel {
    * and database name.
    */
   constructor() {
-    super('user', 'idUser', appConfig.DATABASE)
+    // DATABASE: cloumize_dev, TABLE: cm_customer, PRIMARY_KEY: id
+    super('cm_customer', 'id', appConfig.DATABASE)
   }
 }
 

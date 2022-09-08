@@ -14,7 +14,7 @@ export default class AuthService {
    * @param employeeModel Employee model instance
    * @param userModel User model instance
    */
-  constructor(private userModel: UserModel, private userHelper: UserHelper) {}
+  constructor(private userModel: UserModel, private userHelper: UserHelper) { }
 
   /**
    * Sign in user
@@ -61,7 +61,7 @@ export default class AuthService {
    * @param user - {email: string, password: string}
    * @returns The id of the user created
    */
-  async SignUp(user: { email: string; password: string }): Promise<number> {
+  async SignUp(user: { email: string; password: string }): Promise<boolean> {
     const { email } = user
     const response = await this.userModel.GetByField({ key: 'email', value: email })
     const _user = response[0]
@@ -77,8 +77,10 @@ export default class AuthService {
     const newUser: User = {
       email: user.email,
       password: hashedPassword,
-      salt: salt.toString('hex')
+      salt: salt.toString('hex'),
+      created_at: new Date()
     }
+
     console.log('User', newUser)
 
     const { insertId } = await this.userModel.Create(newUser)
@@ -89,7 +91,7 @@ export default class AuthService {
       throw new Error('El usuario no se ha creado')
     }
 
-    return insertId
+    return true
   }
 
   /**

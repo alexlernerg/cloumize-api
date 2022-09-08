@@ -8,9 +8,9 @@ import isDeletable from '../../helpers/is.deletable'
 const route = Router()
 
 export default (app: Router): void => {
-  app.use(route)
+  app.use('/data', route)
 
-  app.get('/data/:page',
+  app.get('/:page',
     // isUserAuth,
     async (req, res, next) => {
       // app.get('/data/:table/:id', isUserAuth, async (req, res, next) => {
@@ -46,7 +46,7 @@ export default (app: Router): void => {
       }
     })
 
-  app.post('/data/:table/:id', isUserAuth, ValidateData, async (req, res, next) => {
+  app.post('/:table/:id', isUserAuth, ValidateData, async (req, res, next) => {
     try {
       // const { id, key, value, data } = req.body
       const { data } = req.body
@@ -75,7 +75,7 @@ export default (app: Router): void => {
     }
   })
 
-  app.put('/data/:table/:id', isUserAuth, ValidateData, async (req, res, next) => {
+  app.put('/:table/:id', isUserAuth, ValidateData, async (req, res, next) => {
     try {
       // const { id, key, value, data } = req.body
       const { data } = req.body
@@ -104,7 +104,7 @@ export default (app: Router): void => {
     }
   })
 
-  app.delete('/data/:table/:id', isUserAuth, async (req, res, next) => {
+  app.delete('/:table/:id', isUserAuth, async (req, res, next) => {
     try {
       const { table, id } = req.params
       // const { pointerId, dataId } = req.body
