@@ -27,7 +27,13 @@ export default {
    */
   API: {
     PREFIX: '/api',
-    URLS: ['https://aw2xmogbpb.execute-api.eu-west-3.amazonaws.com/insert-arn/ec2-instance-auth-get']
+    URLS: {
+      dashboard: 'https://aw2xmogbpb.execute-api.eu-west-3.amazonaws.com/insert-arn/ec2-instance-auth-get',
+      'savings-finder': 'https://aw2xmogbpb.execute-api.eu-west-3.amazonaws.com/dev/savings-finder-auth-get',
+      'compute-finder': '',
+      'existing-plans': '',
+      account: ''
+    }
   },
 
   /**

@@ -1,5 +1,3 @@
-import axios from 'axios'
-import { Pointer } from '../types/interfaces/data.service.interface'
 import { Service } from 'typedi'
 import axiosHelper from '../helpers/axios.helper'
 
@@ -20,13 +18,14 @@ export class ApiDataService {
    * @param {any} id - The id of the data you want to create.
    * @returns A pointer to the data that was created.
    */
-  async CreateData(table: string, id: any, data: any): Promise<any> {
-    try {
-      const pointer: Pointer = await axios.post(`https://cloumize-api.com/api/${table}/${id}`, data)
-      return pointer
-    } catch (error) {
-      throw new Error(error)
-    }
+  async CreateData(page: string, data: { any }): Promise<any> {
+    return await axiosHelper(page, 'POST', data)
+    // try {
+    //   const pointer: Pointer = await axios.post(`https://cloumize-api.com/api/${table}/${id}`, data)
+    //   return pointer
+    // } catch (error) {
+    //   throw new Error(error)
+    // }
   }
 
   /**
@@ -43,7 +42,7 @@ export class ApiDataService {
     // } catch (error) {
     //   throw new Error(error)
     // }
-    return await axiosHelper(page)
+    return await axiosHelper(page, 'GET')
   }
 
   /**
@@ -53,13 +52,14 @@ export class ApiDataService {
    * @param {any} data - The data you want to update.
    * @returns The pointer is being returned.
    */
-  async UpdateData(table: string, id: any, data: any): Promise<any> {
-    try {
-      const pointer: Pointer = await axios.put(`https://cloumize-api.com/api/${table}/${id}`, data)
-      return pointer
-    } catch (error) {
-      throw new Error(error)
-    }
+  async UpdateData(page: string, data: { any }): Promise<any> {
+    return await axiosHelper(page, 'PUT', data)
+    // try {
+    //   const pointer: Pointer = await axios.put(`https://cloumize-api.com/api/${table}/${id}`, data)
+    //   return pointer
+    // } catch (error) {
+    //   throw new Error(error)
+    // }
   }
 
   /**
@@ -69,13 +69,14 @@ export class ApiDataService {
    * @param {any} data - The data you want to update.
    * @returns The pointer is being returned.
    */
-  async DeleteData(table: string, id: any): Promise<any> {
-    try {
-      const pointer: Pointer = await axios.delete(`https://cloumize-api.com/api/${table}/${id}`)
-      return pointer
-    } catch (error) {
-      throw new Error(error)
-    }
+  async DeleteData(page: string, data: {any}): Promise<any> {
+    await axiosHelper(page, 'DELETE', data)
+    // try {
+    //   const pointer: Pointer = await axios.delete(`https://cloumize-api.com/api/${table}/${id}`)
+    //   return pointer
+    // } catch (error) {
+    //   throw new Error(error)
+    // }
   }
 
   // /**
