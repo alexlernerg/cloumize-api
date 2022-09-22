@@ -111,7 +111,7 @@ export default (app: Router): void => {
           }
 
           // ADD EXTRA DATA TO PAYLOAD WHEN NEEDED.
-          if (page === 'aprove-saving-finder') data.user_id_cm = id
+          if (page === 'aprove-saving-finder' || page === 'insert-arn') data.user_id_cm = id
 
           const result = await Container.get(ApiDataService).UpdateData(page, headers, data)
           return res.json(result).status(200)
