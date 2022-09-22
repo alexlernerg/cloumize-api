@@ -19,7 +19,8 @@ export class ApiDataService {
    * @returns A pointer to the data that was created.
    */
   async CreateData(page: string, headers: { authToken: string, id: string, uuid: string }, data: { any }): Promise<any> {
-    return await axiosHelper(page, 'POST', data, headers)
+    console.log('CALLING POST DATA :', page, headers, data)
+    return await axiosHelper(page, 'POST', headers, data)
     // try {
     //   const pointer: Pointer = await axios.post(`https://cloumize-api.com/api/${table}/${id}`, data)
     //   return pointer
@@ -34,7 +35,9 @@ export class ApiDataService {
    * @param {any} id - The id of the data you want to read.
    * @returns The pointer is being returned.
    */
-  async ReadData(page: string, headers: { authToken: string, id: string, uuid: string }): Promise<any> {
+  async ReadData(page: string, headers:{ authToken: string, id: string, uuid: string }): Promise<any> {
+    console.log('CALLING GET DATA :', page, headers)
+
     // async ReadData(table: string, id: any): Promise<any> {
     // try {
     //   const pointer: Pointer = await axios.get(`https://cloumize-api.com/api/${table}/${id}`)
@@ -53,7 +56,8 @@ export class ApiDataService {
    * @returns The pointer is being returned.
    */
   async UpdateData(page: string, headers: { authToken: string, id: string, uuid: string }, data: { any }): Promise<any> {
-    return await axiosHelper(page, 'PUT', data, headers)
+    console.log('CALLING PUT DATA :', page, headers, data)
+    return await axiosHelper(page, 'PUT', headers, data)
     // try {
     //   const pointer: Pointer = await axios.put(`https://cloumize-api.com/api/${table}/${id}`, data)
     //   return pointer
@@ -70,7 +74,8 @@ export class ApiDataService {
    * @returns The pointer is being returned.
    */
   async DeleteData(page: string, headers: { authToken: string, id: string, uuid: string }, data: { any }): Promise<any> {
-    await axiosHelper(page, 'DELETE', data)
+    console.log('CALLING DELETE DATA :', page, headers, data)
+    await axiosHelper(page, 'DELETE', headers, data)
     // try {
     //   const pointer: Pointer = await axios.delete(`https://cloumize-api.com/api/${table}/${id}`)
     //   return pointer

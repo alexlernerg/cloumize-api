@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
-import { NextFunction } from 'express';
+import { Router, NextFunction } from 'express'
 // import { GetDataService } from '../../services/data.service'
-import { Router } from 'express'
 import Container from 'typedi'
 import { isUserAuth } from '../middlewares'
 import { ApiDataService } from '../../services/api.data.service'
@@ -33,8 +32,8 @@ export default (app: Router): void => {
           // POPULATE HEADERS.
           const headers = {
             authToken: 'abc123',
-            id: user_id_cm,
-            uuid: id
+            id: `${user_id_cm}`,
+            uuid: `${id}`
           }
 
           const result = await Container.get(ApiDataService).ReadData(page, headers)
