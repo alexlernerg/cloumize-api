@@ -6,7 +6,7 @@ import { isUserAuth } from '../middlewares'
 import { ApiDataService } from '../../services/api.data.service'
 // import isDeletable from '../../helpers/is.deletable'
 import { isValidPage } from '../middlewares/validation/validation.data'
-import UserService from 'src/services/user.service';
+import UserService from '../../services/user.service'
 
 const route = Router()
 
