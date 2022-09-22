@@ -28,11 +28,14 @@ export default {
   API: {
     PREFIX: '/api',
     URLS: {
+      'insert-arn': 'https://aw2xmogbpb.execute-api.eu-west-3.amazonaws.com/dev/insert-arn',
+      'aprove-saving-finder': 'https://aw2xmogbpb.execute-api.eu-west-3.amazonaws.com/dev/sendsesemail',
+      'status-onboarding': 'https://aw2xmogbpb.execute-api.eu-west-3.amazonaws.com/dev/ec2-sync-instance-status',
       dashboard: 'https://aw2xmogbpb.execute-api.eu-west-3.amazonaws.com/insert-arn/ec2-instance-auth-get',
       'savings-finder': 'https://aw2xmogbpb.execute-api.eu-west-3.amazonaws.com/dev/savings-finder-auth-get',
-      'compute-finder': '',
-      'existing-plans': '',
-      account: ''
+      'compute-finder': 'https://aw2xmogbpb.execute-api.eu-west-3.amazonaws.com/insert-arn/ec2-instance-auth-get',
+      'reserved-instances': 'https://aw2xmogbpb.execute-api.eu-west-3.amazonaws.com/dev/reserved-instance-auth-get',
+      'savings-plans': 'https://aw2xmogbpb.execute-api.eu-west-3.amazonaws.com/dev/savings-finder-auth-get'
     }
   },
 
