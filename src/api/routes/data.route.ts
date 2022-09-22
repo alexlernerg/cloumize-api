@@ -23,15 +23,15 @@ export default (app: Router): void => {
         if (!isValidPage(page)) {
           return res.status(422).send('Unprocessable Entity')
         } else {
-          // GET TOKEN ID = USER UUID IN DB.
+          // GET ID FROM JWT = user_uuid IN DB.
           const { id } = req.token
 
-          // GET USER CM ID IN DB.
+          // GET user_id_cm IN DB (FOR THE REQ HEADERS).
           const { user_id_cm } = await Container.get(UserService).ReadByField({ key: 'user_uuid', value: id })
 
-          // POPULATE HEADERS.
+          // POPULATE REQ HEADERS.
           const headers = {
-            authToken: 'abc123',
+            authToken: process.env.API_KEY || 'abc123',
             id: `${user_id_cm}`,
             uuid: `${id}`
           }
@@ -65,7 +65,7 @@ export default (app: Router): void => {
 
           // POPULATE HEADERS.
           const headers = {
-            authToken: 'abc123',
+            authToken: process.env.API_KEY || 'abc123',
             id: user_id_cm,
             uuid: id
           }
@@ -101,7 +101,7 @@ export default (app: Router): void => {
 
           // POPULATE HEADERS.
           const headers = {
-            authToken: 'abc123',
+            authToken: process.env.API_KEY || 'abc123',
             id: user_id_cm,
             uuid: id
           }
@@ -138,7 +138,7 @@ export default (app: Router): void => {
 
           // POPULATE HEADERS.
           const headers = {
-            authToken: 'abc123',
+            authToken: process.env.API_KEY || 'abc123',
             id: user_id_cm,
             uuid: id
           }
