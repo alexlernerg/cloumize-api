@@ -11,7 +11,7 @@ const route = Router()
 export default (app: Router): void => {
   app.use(route)
 
-  app.get('/data/:page',
+  route.get('/data/:page',
     isUserAuth,
     async (req, res, next) => {
       try {
@@ -30,7 +30,7 @@ export default (app: Router): void => {
       }
     })
 
-  app.post('/data/:page',
+  route.post('/data/:page',
     isUserAuth,
     async (req, res, next) => {
       try {
@@ -51,7 +51,7 @@ export default (app: Router): void => {
       }
     })
 
-  app.put('/data/:page',
+  route.put('/data/:page',
     isUserAuth,
     async (req, res, next) => {
       try {
@@ -73,7 +73,7 @@ export default (app: Router): void => {
       }
     })
 
-  app.delete('/data/:page',
+  route.delete('/data/:page',
     isUserAuth,
     async (req, res, next) => {
       try {

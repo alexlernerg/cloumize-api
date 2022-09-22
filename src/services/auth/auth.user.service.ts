@@ -6,6 +6,7 @@ import { Service } from 'typedi'
 import { UserModel } from '../../models'
 import { UserHelper } from '../../helpers/user.helper'
 import { randomBytes } from 'crypto'
+import { v4 as uuidv4 } from 'uuid'
 
 @Service()
 export default class AuthService {
@@ -78,7 +79,8 @@ export default class AuthService {
       email: user.email,
       password: hashedPassword,
       salt: salt.toString('hex'),
-      created_at: new Date()
+      created_at: new Date(),
+      external_id: uuidv4()
     }
 
     console.log('User', newUser)
@@ -106,9 +108,9 @@ export default class AuthService {
     exp.setDate(today.getDate() + 1)
 
     const sign = {
-      id: user.idUser,
-      email: user.email,
-      exp: exp.getTime() / 1000
+      id: user.external_id,
+      email: user.email
+      // exp: exp.getTime() / 1000
     }
 
     /**

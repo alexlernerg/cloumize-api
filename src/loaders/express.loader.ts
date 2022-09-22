@@ -23,6 +23,11 @@ export default ({ app }: IExpress): void => {
     })
   )
 
+  app.use(function(req, res, next) {
+    req.headers['if-none-match'] = 'no-match-for-this'
+    next()
+  })
+
   // Transforms the raw string of req.body into json
   app.use(express.json())
 

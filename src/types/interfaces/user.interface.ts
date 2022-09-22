@@ -7,6 +7,7 @@ export interface User {
   deleted?: boolean;
   created_at?: Date;
   updated_at?: Date;
+  external_id?: string;
 }
 
 export interface UserInput {

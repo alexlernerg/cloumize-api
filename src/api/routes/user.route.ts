@@ -5,8 +5,7 @@ import {
   isUserAuth,
   ValidateChangeRecoveredPassword,
   ValidatePasswordChange,
-  ValidateRecoverPassword,
-  ValidateUser
+  ValidateRecoverPassword
 } from './../middlewares'
 
 const route = Router()
@@ -14,14 +13,15 @@ const route = Router()
 export default (app: Router): void => {
   app.use('/user', route)
 
-  app.get('/me', isUserAuth, ValidateUser, async (req: any, res, next: NextFunction) => {
+  route.get('/me', isUserAuth, async (req: any, res, next: NextFunction) => {
     const userService = Container.get(UserService)
-    console.info('Calling Post User endpoint with body: %o', req.body)
+    console.info('Calling Post User endpoint with body: %o', req.token)
 
     try {
-      const idUser = Number(req.token.id)
-      const userData = await userService.ReadByField({ key: 'id', value: idUser })
-
+      const idUser = req.token.id
+      console.log('idUser', idUser)
+      const userData = await userService.ReadByField({ key: 'external_id', value: idUser })
+      console.log('userData', userData)
       return res.json(userData).status(200)
     } catch (e) {
       console.error('🔥 error: %o', e)
@@ -29,7 +29,7 @@ export default (app: Router): void => {
     }
   })
 
-  app.put('/update', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
+  route.put('/update', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
     try {
       const idUser = Number(req.token.id)
       const data = req.body
@@ -41,7 +41,7 @@ export default (app: Router): void => {
     }
   })
 
-  app.put('/delete', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
+  route.put('/delete', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
     try {
       const idUser = Number(req.token.id)
 
@@ -52,7 +52,7 @@ export default (app: Router): void => {
     }
   })
 
-  app.put('/password-change', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
+  route.put('/password-change', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
     try {
       const idUser = Number(req.token.id)
       const data = req.body
@@ -64,7 +64,7 @@ export default (app: Router): void => {
     }
   })
 
-  app.post('/recover-password', ValidateRecoverPassword, async (req: any, res, next: NextFunction) => {
+  route.post('/recover-password', ValidateRecoverPassword, async (req: any, res, next: NextFunction) => {
     try {
       const { email } = req.body
 
@@ -75,7 +75,7 @@ export default (app: Router): void => {
     }
   })
 
-  app.post(
+  route.post(
     '/change-password/:token',
     ValidateChangeRecoveredPassword,
     async (req: any, res, next: NextFunction) => {
