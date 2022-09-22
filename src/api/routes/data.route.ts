@@ -27,16 +27,20 @@ export default (app: Router): void => {
           const { id } = req.token
 
           // GET user_id_cm IN DB (FOR THE REQ HEADERS).
-          const { user_id_cm } = await Container.get(UserService).ReadByField({ key: 'user_uuid', value: id })
+          const user = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
+          const { id: _ID } = user[0]
 
           // POPULATE REQ HEADERS.
           const headers = {
             authToken: process.env.API_KEY || 'abc123',
-            id: `${user_id_cm}`,
+            id: `${_ID}`,
             uuid: `${id}`
           }
 
+          console.log('headers', headers)
+
           const result = await Container.get(ApiDataService).ReadData(page, headers)
+          console.log('result', result)
           return res.json(result).status(200)
         }
       } catch (e) {
@@ -61,7 +65,7 @@ export default (app: Router): void => {
           const { id } = req.token
 
           // GET USER CM ID IN DB.
-          const { user_id_cm } = await Container.get(UserService).ReadByField({ key: 'user_uuid', value: id })
+          const { user_id_cm } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
 
           // POPULATE HEADERS.
           const headers = {
@@ -97,7 +101,7 @@ export default (app: Router): void => {
           const { id } = req.token
 
           // GET USER CM ID IN DB.
-          const { user_id_cm } = await Container.get(UserService).ReadByField({ key: 'user_uuid', value: id })
+          const { user_id_cm } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
 
           // POPULATE HEADERS.
           const headers = {
@@ -134,7 +138,7 @@ export default (app: Router): void => {
           const { id } = req.token
 
           // GET USER CM ID IN DB.
-          const { user_id_cm } = await Container.get(UserService).ReadByField({ key: 'user_uuid', value: id })
+          const { user_id_cm } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
 
           // POPULATE HEADERS.
           const headers = {

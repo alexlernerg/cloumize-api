@@ -6,10 +6,13 @@ export default async (page: string, _method: Method, headers?: { authToken: stri
   return axios({
     method: _method,
     url: appConfig.API.URLS[page],
+    data,
     headers: {
       authorizationToken: headers.authToken,
-      user_id_cm: headers.id,
-      user_uuid: headers.uuid
+      user_id_cm: '1',
+      user_uuid: 'qwer'
+      // user_id_cm: headers.id,
+      // user_uuid: headers.uuid
     }
   })
     .then(function (response) {
