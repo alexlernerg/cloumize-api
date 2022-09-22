@@ -59,10 +59,8 @@ export default (app: Router): void => {
         const { data } = req.body
 
         console.log('PAGE REQUESTED :', req.params)
-        // TODO CONVERTIR EN MODIFICADOR DE FUNCION.
         if (!isValidPage(page)) {
           return res.status(422).send('Unprocessable Entity')
-        // ------------
         } else {
           const result = await Container.get(ApiDataService).UpdateData(page, data)
           return res.json(result).status(200)
