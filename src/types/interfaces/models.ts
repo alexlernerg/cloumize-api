@@ -5,9 +5,3 @@ export interface Database {
   password: string
   database: string
 }
-
-export interface Pointer {
-  table: string
-  id: number
-  connection: Database
-}

@@ -1,105 +1,61 @@
+import { ICreateData, IReadData, IUpdateData, IDeleteData } from '../types/interfaces/services'
 import { Service } from 'typedi'
-import axiosHelper from '../helpers/axios.helper'
+import { AxiosHelper } from '../helpers/axios.helper'
 
 @Service()
 export class ApiDataService {
-  // private instance: Axios
+  private axiosHelper;
+
   /**
-   * Constructor
-   * @param eventModel Event model
+   * The constructor function is a special function that is called when an object is created from a
+   * class.
    */
   constructor() {
-    // axios.defaults.headers.common['x-cloumize-api-key'] = appConfig.API_KEY
+    this.axiosHelper = AxiosHelper
   }
 
   /**
-   * It creates a new data in the table and returns a pointer to the data.
-   * @param {string} table - The name of the table you want to create data in.
-   * @param {any} id - The id of the data you want to create.
-   * @returns A pointer to the data that was created.
+   * This function will call the axiosHelper function with the page, _method, headers, and data
+   * parameters.
+   * @param {ICreateData}  - ICreateData
+   * @returns The return value is the response from the server.
    */
-  async CreateData(page: string, headers: { authToken: string, id: string, uuid: string }, data: { any }): Promise<any> {
+  async CreateData({ page, headers, data }: ICreateData): Promise<any> {
     console.log('CALLING POST DATA :', page, headers, data)
-    return await axiosHelper(page, 'POST', headers, data)
-    // try {
-    //   const pointer: Pointer = await axios.post(`https://cloumize-api.com/api/${table}/${id}`, data)
-    //   return pointer
-    // } catch (error) {
-    //   throw new Error(error)
-    // }
+    return await this.axiosHelper({ page, _method: 'POST', headers, data })
   }
 
   /**
-   * It takes a table name, an id, and a data object, and returns a pointer.
-   * @param {string} table - The name of the table you want to read from.
-   * @param {any} id - The id of the data you want to read.
-   * @returns The pointer is being returned.
+   * It's a function that takes an object with two properties, page and headers, and returns a promise
+   * that resolves to the result of calling another function, axiosHelper, with the same two properties
+   * @param {IReadData}  - IReadData = {
+   * @returns The return value is the result of the axiosHelper function.
    */
-  async ReadData(page: string, headers:{ authToken: string, id: string, uuid: string }): Promise<any> {
+  async ReadData({ page, headers }: IReadData): Promise<any> {
     console.log('CALLING GET DATA :', page, headers)
 
-    // async ReadData(table: string, id: any): Promise<any> {
-    // try {
-    //   const pointer: Pointer = await axios.get(`https://cloumize-api.com/api/${table}/${id}`)
-    //   return pointer
-    // } catch (error) {
-    //   throw new Error(error)
-    // }
-    return await axiosHelper(page, 'GET', headers)
+    return await this.axiosHelper({ page, _method: 'GET', headers })
   }
 
   /**
-   * It takes a table name, an id, and data as arguments, and returns a pointer to the updated data.
-   * @param {string} table - The name of the table you want to update.
-   * @param {any} id - The id of the data you want to update.
-   * @param {any} data - The data you want to update.
-   * @returns The pointer is being returned.
-   */
-  async UpdateData(page: string, headers: { authToken: string, id: string, uuid: string }, data: { any }): Promise<any> {
+    * This function will call the axiosHelper function with the page, _method, headers, and data
+    * parameters.
+    * @param {IUpdateData}  - IUpdateData
+    * @returns The return value is the response from the server.
+    */
+  async UpdateData({ page, headers, data }: IUpdateData): Promise<any> {
     console.log('CALLING PUT DATA :', page, headers, data)
-    return await axiosHelper(page, 'PUT', headers, data)
-    // try {
-    //   const pointer: Pointer = await axios.put(`https://cloumize-api.com/api/${table}/${id}`, data)
-    //   return pointer
-    // } catch (error) {
-    //   throw new Error(error)
-    // }
+    return await this.axiosHelper({ page, _method: 'PUT', headers, data })
   }
 
   /**
-   * It takes a table name, an id, and data as arguments, and returns a pointer to the updated data.
-   * @param {string} table - The name of the table you want to update.
-   * @param {any} id - The id of the data you want to update.
-   * @param {any} data - The data you want to update.
-   * @returns The pointer is being returned.
-   */
-  async DeleteData(page: string, headers: { authToken: string, id: string, uuid: string }, data: { any }): Promise<any> {
+    * This function will call the axiosHelper function with the page, _method, headers, and data
+    * parameters.
+    * @param {IDeleteData}  - IDeleteData
+    * @returns The return value is the response from the server.
+    */
+  async DeleteData({ page, headers, data }: IDeleteData): Promise<any> {
     console.log('CALLING DELETE DATA :', page, headers, data)
-    await axiosHelper(page, 'DELETE', headers, data)
-    // try {
-    //   const pointer: Pointer = await axios.delete(`https://cloumize-api.com/api/${table}/${id}`)
-    //   return pointer
-    // } catch (error) {
-    //   throw new Error(error)
-    // }
+    await this.axiosHelper({ page, _method: 'DELETE', headers, data })
   }
-
-  // /**
-  //  * It must return a Pointer to query the database at the correct DB, table, and id.
-  //  * Th
-  //  * @param id identifier
-  //  * // returns a pointer like this:
-  //     "Pointer": {
-  //       "table": "string", // table name
-  //       "id": "number", // primary key
-  //     }
-  //  */
-  // async GetPointer(id: any): Promise<Pointer> {
-  //   try {
-  //     const pointer: Pointer = await axios.get(`https://cloumize-api.com/api/pointers/${id}`)
-  //     return pointer
-  //   } catch (error) {
-  //     throw new Error(error)
-  //   }
-  // }
 }

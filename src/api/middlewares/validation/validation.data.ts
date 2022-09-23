@@ -18,9 +18,5 @@ export const ValidateData = celebrate({
  * @returns An array of strings.
  */
 export function isValidPage(page: string): boolean {
-  console.log('VALIDACION PAGINA: ', page)
-  console.log('VALIDACION PAGINA: ', Object.keys(appConfig.API.URLS))
-  console.log('VALIDACION PAGINA: ', Object.keys(appConfig.API.URLS).includes(page))
-
   return Object.keys(appConfig.API.URLS).includes(page)
 }

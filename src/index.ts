@@ -22,5 +22,4 @@ async function startServer (): Promise<any> {
       process.exit(1)
     })
 }
-
 startServer()
