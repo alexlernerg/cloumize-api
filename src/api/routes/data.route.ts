@@ -65,17 +65,18 @@ export default (app: Router): void => {
           const { id } = req.token
 
           // GET USER CM ID IN DB.
-          const { user_id_cm } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
+          const { id: _ID } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
 
           // POPULATE HEADERS.
           const headers = {
             authToken: process.env.API_KEY || 'abc123',
-            id: user_id_cm,
+            id: _ID,
             uuid: id
           }
 
           // ADD EXTRA DATA TO PAYLOAD WHEN NEEDED.
-          if (page === 'aprove-saving-finder') data.user_id_cm = id
+          console.log('DATA', data)
+          if (page === 'aprove-saving-finder' || page === 'insert-arn') data.user_id_cm = '2'
 
           const result = await Container.get(ApiDataService).CreateData(page, headers, data)
           return res.json(result).status(200)
@@ -101,12 +102,12 @@ export default (app: Router): void => {
           const { id } = req.token
 
           // GET USER CM ID IN DB.
-          const { user_id_cm } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
+          const { id: _ID } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
 
           // POPULATE HEADERS.
           const headers = {
             authToken: process.env.API_KEY || 'abc123',
-            id: user_id_cm,
+            id: _ID,
             uuid: id
           }
 
@@ -138,12 +139,12 @@ export default (app: Router): void => {
           const { id } = req.token
 
           // GET USER CM ID IN DB.
-          const { user_id_cm } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
+          const { id: _ID } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
 
           // POPULATE HEADERS.
           const headers = {
             authToken: process.env.API_KEY || 'abc123',
-            id: user_id_cm,
+            id: _ID,
             uuid: id
           }
           const result = await Container.get(ApiDataService).DeleteData(page, headers, data)
