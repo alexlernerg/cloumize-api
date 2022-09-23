@@ -16,9 +16,9 @@ export default class EmailService {
    */
   async SEND_RECOVER_PASSWORD (email: string, token: string): Promise<SMTPTransport.SentMessageInfo> {
     return await this.transporter.sendMail({
-      from: 'Change The Block ctb.noreply@gmail.com',
+      from: 'Cloumize cloumize.noreply@gmail.com', // TODO: CREAR EMAIL
       to: email,
-      subject: 'Change The Block - recover password',
+      subject: 'Cloumize - recover password',
       html: recoverPassword(token)
     })
   }
@@ -32,9 +32,9 @@ export default class EmailService {
    */
   async SEND_NEW_USER_INFO (name: string, surname: string, password: string, email: string): Promise<any> {
     await this.transporter.sendMail({
-      from: 'Change The Block ctb.noreply@gmail.com',
+      from: 'Cloumize cloumize.noreply@gmail.com', // TODO: CREAR EMAIL
       to: email,
-      subject: 'Change The Block - User info',
+      subject: 'Cloumize - User info',
       html: newEmployeeEmail(name, surname, password, email)
     })
   }

@@ -8,12 +8,13 @@ export default {
   /**
    * JWT CONFIG
    */
-  JWT_USER_SECRECT: 'JWT_SECRECT_MANDANGA@_USER',
+  JWT_USER_SECRECT: '00bbac6bf85b2c0132180d23ee237bcf74a492f71087ac57e5f4326b321b1480',
   JWT_ALGORITHM: 'HS256',
 
   /**
    * DATABASE CONFIG
    */
+  // TODO: CAMBIAR A SU NUEVA BASE DE DATOS.
   DATABASE: {
     host: 'database-sandbox.cccmjxkosivs.eu-west-3.rds.amazonaws.com',
     post: '3306',

@@ -1,6 +1,7 @@
 import { OkPacket } from 'mysql'
 import { Service } from 'typedi'
 import _DatabaseModel from './database.model'
+import { Database } from '../../types/interfaces/models'
 
 @Service()
 export default class BaseModel extends _DatabaseModel {
@@ -13,7 +14,7 @@ export default class BaseModel extends _DatabaseModel {
    * @param {string} _id - The id of the record you want to delete.
    * @param {any} _connection - This is the connection object that you created in the previous step.
    */
-  constructor(_table: string, _id: string, _connection: any) {
+  constructor(_table: string, _id: string, _connection: Database) {
     super(_connection)
     this.table = _table
     this.id = _id
@@ -74,7 +75,6 @@ export default class BaseModel extends _DatabaseModel {
       i < dataKeys.length - 1 ? (setData += `${key} = ?, `) : (setData += `${key} = ?`)
       typeof data[key] === 'string' ? dataArr.push(`${data[key]}`) : dataArr.push(data[key])
     }
-    console.log('PUT DATA', dataArr, setData)
     return await this.executeQuery(`UPDATE ${this.table} SET ${setData} WHERE ${this.id} = ?`, [...dataArr, id])
   }
 

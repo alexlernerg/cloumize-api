@@ -13,25 +13,3 @@ export class UserModel extends BaseModel {
     super('cm_customer', 'id', appConfig.DATABASE)
   }
 }
-
-@Service()
-export class TypesModel extends BaseModel {
-  /**
-   * A constructor for the class.
-   * @param {any} pointer - any
-   */
-  constructor() {
-    super('type', 'idType', appConfig.DATABASE)
-  }
-}
-
-@Service()
-export class DataModel extends BaseModel {
-  /**
-   * A constructor for the class.
-   * @param {any} pointer - any
-   */
-  constructor(pointer: any) {
-    super(pointer.table, pointer.id, pointer.connection)
-  }
-}

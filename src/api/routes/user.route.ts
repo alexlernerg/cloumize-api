@@ -19,9 +19,7 @@ export default (app: Router): void => {
 
     try {
       const idUser = req.token.id
-      console.log('idUser', idUser)
       const userData = await userService.ReadByField({ key: 'external_id', value: idUser })
-      console.log('userData', userData)
       return res.json(userData).status(200)
     } catch (e) {
       console.error('🔥 error: %o', e)

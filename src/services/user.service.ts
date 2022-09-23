@@ -2,7 +2,7 @@ import { appConfig } from './../config'
 import { randomBytes } from 'crypto'
 import { Service } from 'typedi'
 import { UserHelper } from './../helpers/user.helper'
-import { UserInput, User, PasswordChange } from '../types/interfaces/user.interface'
+import { IUserInput, IUser, IPasswordChange } from '../types/interfaces/services'
 import argon2 from 'argon2'
 import EmailService from './auth/email.service'
 import jwt from 'jsonwebtoken'
@@ -11,16 +11,21 @@ import { UserModel } from './../models'
 @Service()
 export default class UserService {
   /**
-   * Constructor
+   * The constructor function is a special function that is called when a new instance of the class is
+   * created
+   * @param {UserModel} userModel - This is the model that we created earlier.
+   * @param {UserHelper} userHelper - This is the helper class that we created earlier.
+   * @param {EmailService} emailService - This is the service that will be injected into the
+   * constructor.
    */
   constructor(private userModel: UserModel, private userHelper: UserHelper, private emailService: EmailService) {}
 
   /**
-   * It creates a new user
-   * @param {UserInput} user - UserInput: This is the input object that we defined in the schema.
-   * @returns The id of the user created
-   */
-  async Create(user: UserInput): Promise<{ isCreated: boolean }> {
+  * It creates a new user in the database
+  * @param {IUserInput} user - IUserInput
+  * @returns A boolean value that indicates if the user was created or not.
+  */
+  async Create(user: IUserInput): Promise<{ isCreated: boolean }> {
     const salt = randomBytes(32)
     const password = user.password || this.userHelper.createPassword()
     const hashedPassword = await argon2.hash(password, { salt })
@@ -30,7 +35,7 @@ export default class UserService {
       throw new Error('El empleado ya está registrado')
     }
 
-    const newUser: User = {
+    const newUser: IUser = {
       email: user.email,
       password: hashedPassword,
       salt: salt.toString('hex')
@@ -46,13 +51,11 @@ export default class UserService {
   }
 
   /**
-   * It takes in a data object, and returns a promise that resolves to the result of the GetByField
-   * function in the dataModel
-   * @param {any} data - {
-   * @returns The dataModel.GetByField() method is being returned.
+   * It takes in a key-value pair, and returns the data that matches the key-value pair
+   * @param {any} data - any
+   * @returns The data that was found in the database.
    */
   async ReadByField(data: any): Promise<any> {
-    console.log('-------->', data)
     const _data = await this.userModel.GetByField(data)
 
     if (!_data) {
@@ -63,15 +66,13 @@ export default class UserService {
   }
 
   /**
-   * It receives an idUser and a data object with the lastPassword and newPassword properties, it
-   * checks if the lastPassword matches the one stored in the database, if it does, it generates a new
-   * salt and a new hashed password, and then it updates the user's password and salt in the database
-   * @param {number} idUser - number, data: PasswordChange
-   * @param {PasswordChange} data - PasswordChange
-   * @returns a promise that resolves to an object with a boolean property.
+   * It updates the password of a user
+   * @param {number} idUser - number, data: any
+   * @param {any} data - any
+   * @returns a promise with an object that contains a boolean value.
    */
   async Update(idUser: number, data: any): Promise<{ isUpdated: boolean }> {
-    const response = await this.userModel.Get<User>(idUser)
+    const response = await this.userModel.Get<IUser>(idUser)
     const user = response[0]
 
     if (!user) {
@@ -85,7 +86,7 @@ export default class UserService {
     }
 
     data.updated_at = new Date()
-    const { changedRows } = await this.userModel.Put<User>(idUser, data)
+    const { changedRows } = await this.userModel.Put<IUser>(idUser, data)
 
     if (!changedRows) {
       throw new Error('No se ha actualizado la contraseña')
@@ -95,15 +96,12 @@ export default class UserService {
   }
 
   /**
-   * It receives an idUser and a data object with the lastPassword and newPassword properties, it
-   * checks if the lastPassword matches the one stored in the database, if it does, it generates a new
-   * salt and a new hashed password, and then it updates the user's password and salt in the database
-   * @param {number} idUser - number, data: PasswordChange
-   * @param {PasswordChange} data - PasswordChange
-   * @returns a promise that resolves to an object with a boolean property.
+   * It deletes a user from the database
+   * @param {number} idUser - number
+   * @returns { isDeleted: changedRows > 0 }
    */
   async Delete(idUser: number): Promise<{ isDeleted: boolean }> {
-    const response = await this.userModel.Get<User>(idUser)
+    const response = await this.userModel.Get<IUser>(idUser)
     const user = response[0]
 
     if (!user) {
@@ -120,15 +118,15 @@ export default class UserService {
   }
 
   /**
-   * It receives an idUser and a data object with the lastPassword and newPassword properties, it
-   * checks if the lastPassword matches the one stored in the database, if it does, it generates a new
-   * salt and a new hashed password, and then it updates the user's password and salt in the database
-   * @param {number} idUser - number, data: PasswordChange
-   * @param {PasswordChange} data - PasswordChange
+   * It receives an idUser and a data object with the lastPassword and newPassword properties, it then
+   * checks if the user exists, if the lastPassword matches the one stored in the database, and if so,
+   * it updates the password with the new one
+   * @param {number} idUser - number, data: IPasswordChange
+   * @param {IPasswordChange} data - IPasswordChange
    * @returns a promise that resolves to an object with a boolean property.
    */
-  async ChangePassword(idUser: number, data: PasswordChange): Promise<{ isPasswordChanged: boolean }> {
-    const response = await this.userModel.Get<User>(idUser)
+  async ChangePassword(idUser: number, data: IPasswordChange): Promise<{ isPasswordChanged: boolean }> {
+    const response = await this.userModel.Get<IUser>(idUser)
     const user = response[0]
 
     if (!user) {
@@ -145,13 +143,13 @@ export default class UserService {
     const { newPassword } = data
     const hashedPassword = await argon2.hash(newPassword, { salt })
 
-    const changeData: User = {
+    const changeData: IUser = {
       password: hashedPassword,
       salt: salt.toString('hex')
     }
 
     changeData.updated_at = new Date()
-    const { changedRows } = await this.userModel.Put<User>(idUser, changeData)
+    const { changedRows } = await this.userModel.Put<IUser>(idUser, changeData)
 
     if (!changedRows) {
       throw new Error('No se ha actualizado la contraseña')
@@ -161,14 +159,14 @@ export default class UserService {
   }
 
   /**
-   * It gets the user by email, then it gets the email and salt from the user, then it checks if the
-   * email exists, then it sends the email with the salt, then it returns the result
-   * @param {string} emailInput - string
+   * It gets the user by email, generates a token and sends an email with the token
+   * @param {string} emailInput - string: The email address of the user who wants to recover their
+   * password.
    * @returns { emailSended: boolean }
    */
   async RecoverPassword(emailInput: string): Promise<{ emailSended: boolean }> {
     try {
-      const user: User[] = await this.userModel.GetByField({ key: 'email', value: emailInput })
+      const user: IUser[] = await this.userModel.GetByField({ key: 'email', value: emailInput })
       const { email, salt } = user[0]
 
       if (!email) {
@@ -186,11 +184,12 @@ export default class UserService {
   }
 
   /**
-   * It takes a token and a password, and returns a boolean indicating whether the password was changed
-   * or not
+   * It takes a token and a password, it decodes the token, it gets the user from the database, it
+   * hashes the password with the new salt, it updates the user in the database and it returns a
+   * boolean indicating if the password was changed
    * @param {string} token - The token that was sent to the user's email.
-   * @param {string} password - The new password
-   * @returns an object with a boolean property called passwordChanged.
+   * @param {string} password - The new password that the user wants to set.
+   * @returns a boolean value that indicates if the password has been changed or not.
    */
   async ChangeRecoveredPassword(token: string, password: string): Promise<{ passwordChanged: boolean }> {
     try {
@@ -218,7 +217,10 @@ export default class UserService {
   }
 
   /**
-   * It checks if a user is registered by checking if the user's email exists in the database
+   * "This function returns a boolean value that indicates whether or not a user with the specified
+   * email address is registered in the database."
+   *
+   * The function is declared as private because it's only used internally by the UserService class
    * @param {string} email - string - The email address of the user
    * @returns A boolean value
    */
@@ -229,8 +231,8 @@ export default class UserService {
   }
 
   /**
-   * It takes an email and a salt, and returns a JWT token
-   * @param {string} email - The email of the user
+   * It generates a JWT token with the email and salt as the payload
+   * @param {string} email - The email address of the user.
    * @param {string} salt - A random string that is used to generate the token.
    * @returns A JWT token
    */

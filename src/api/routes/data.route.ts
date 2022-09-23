@@ -4,7 +4,6 @@ import { Router, NextFunction } from 'express'
 import Container from 'typedi'
 import { isUserAuth } from '../middlewares'
 import { ApiDataService } from '../../services/api.data.service'
-// import isDeletable from '../../helpers/is.deletable'
 import { isValidPage } from '../middlewares/validation/validation.data'
 import UserService from '../../services/user.service'
 
@@ -15,32 +14,28 @@ export default (app: Router): void => {
 
   route.get('/data/:page',
     isUserAuth,
-    async (req:any, res:any, next:NextFunction) => {
+    async (req: any, res: any, next: NextFunction) => {
       try {
         const { page } = req.params
-        console.log('PAGE REQUESTED :', req.params)
 
         if (!isValidPage(page)) {
           return res.status(422).send('Unprocessable Entity')
         } else {
           // GET ID FROM JWT = user_uuid IN DB.
+          // TODO: CAMBIAR id
           const { id } = req.token
 
           // GET user_id_cm IN DB (FOR THE REQ HEADERS).
           const user = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
-          const { id: _ID } = user[0]
 
-          // POPULATE REQ HEADERS.
+          const { id: _ID } = user[0] // TODO: CAMBIAR por const { id: _ID } = user[0] ;
           const headers = {
             authToken: process.env.API_KEY || 'abc123',
             id: `${_ID}`,
-            uuid: `${id}`
+            uuid: `${id}` // TODO: CAMBIAR EN HEADERS POR SALT salt: `${salt}`
           }
 
-          console.log('headers', headers)
-
-          const result = await Container.get(ApiDataService).ReadData(page, headers)
-          console.log('result', result)
+          const result = await Container.get(ApiDataService).ReadData({ page, headers })
           return res.json(result).status(200)
         }
       } catch (e) {
@@ -55,8 +50,6 @@ export default (app: Router): void => {
       try {
         const { page } = req.params
         const { data } = req.body
-
-        console.log('PAGE REQUESTED :', req.params)
 
         if (!isValidPage(page)) {
           return res.status(422).send('Unprocessable Entity')
@@ -77,7 +70,7 @@ export default (app: Router): void => {
           // ADD EXTRA DATA TO PAYLOAD WHEN NEEDED.
           if (page === 'aprove-saving-finder') data.user_id_cm = id
 
-          const result = await Container.get(ApiDataService).CreateData(page, headers, data)
+          const result = await Container.get(ApiDataService).CreateData({ page, headers, data })
           return res.json(result).status(200)
         }
       } catch (e) {
@@ -88,12 +81,11 @@ export default (app: Router): void => {
 
   route.put('/data/:page',
     isUserAuth,
-    async (req:any, res:any, next:NextFunction) => {
+    async (req: any, res: any, next: NextFunction) => {
       try {
         const { page } = req.params
         const { data } = req.body
 
-        console.log('PAGE REQUESTED :', req.params)
         if (!isValidPage(page)) {
           return res.status(422).send('Unprocessable Entity')
         } else {
@@ -113,7 +105,7 @@ export default (app: Router): void => {
           // ADD EXTRA DATA TO PAYLOAD WHEN NEEDED.
           if (page === 'aprove-saving-finder' || page === 'insert-arn') data.user_id_cm = id
 
-          const result = await Container.get(ApiDataService).UpdateData(page, headers, data)
+          const result = await Container.get(ApiDataService).UpdateData({ page, headers, data })
           return res.json(result).status(200)
         }
       } catch (e) {
@@ -124,12 +116,10 @@ export default (app: Router): void => {
 
   route.delete('/data/:page',
     isUserAuth,
-    async (req:any, res:any, next:NextFunction) => {
+    async (req: any, res: any, next: NextFunction) => {
       try {
         const { page } = req.params
         const { data } = req.body
-
-        console.log('PAGE REQUESTED :', req.params)
 
         if (!isValidPage(page)) {
           return res.status(422).send('Unprocessable Entity')
@@ -146,7 +136,7 @@ export default (app: Router): void => {
             id: user_id_cm,
             uuid: id
           }
-          const result = await Container.get(ApiDataService).DeleteData(page, headers, data)
+          const result = await Container.get(ApiDataService).DeleteData({ page, headers, data })
           return res.json(result).status(200)
         }
       } catch (e) {

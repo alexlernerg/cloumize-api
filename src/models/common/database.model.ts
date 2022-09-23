@@ -1,4 +1,5 @@
 import mysql from 'mysql'
+import { Database } from '../../types/interfaces/models'
 import { Service } from 'typedi'
 
 @Service()
@@ -10,7 +11,7 @@ export default class _DatabaseModel {
    * class.
    * @param {any} _connection - This is the connection object that is passed to the constructor.
    */
-  constructor(_connection: any) {
+  constructor(_connection: Database) {
     this.connection = _connection
   }
 
