@@ -16,10 +16,10 @@ export async function AxiosHelper({ page, _method, headers, data }: IAxiosServic
       authorizationToken: headers.authToken,
       // user_id_cm: '1',
       // user_uuid: 'qwer'
-      user_id_cm: '2',
-      user_uuid: 'wert'
-      // user_id_cm: headers.id, TODO: CAMBIAR POR id: headers.id
-      // user_uuid: headers.uuid TODO: CAMBIAR POR salt: headers.salt
+      // user_id_cm: '2',
+      // user_uuid: 'wert'
+      user_id_cm: headers.id, // TODO: CAMBIAR POR id: headers.id
+      user_uuid: headers.uuid // TODO: CAMBIAR POR salt: headers.salt
     }
   }
 
