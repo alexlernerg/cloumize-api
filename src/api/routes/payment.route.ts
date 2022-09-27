@@ -10,11 +10,20 @@ const stripe = require('stripe')(
 
 const route = Router()
 
+/**
+ * This routes are used for payment operations via Stripe.
+ * @returns The stripe payment routes.
+ */
 export default (app: Router): void => {
   app.use(express.static('public'))
   app.use(express.urlencoded({ extended: true }))
   app.use(route)
 
+  /**
+   * This route is used to consult prices of services from a prices list.
+   * @param {string} lookup_key - string - The reference to the service.
+   * @returns The result of the query to the stripe API.
+   */
   route.post('/consulting-price', async (req, res, next) => {
     const prices = await stripe.prices.list({
       lookup_keys: [req.body.lookup_key],
@@ -23,6 +32,13 @@ export default (app: Router): void => {
     res.send({ prices })
   })
 
+  /**
+   * This route is used to update the price of service.
+   * Once implemented it should only be callable by an ADMIN role.
+   * @param {string} product - string - The reference to the product.
+   * @param {number} newPrice - number - The new price for that product.
+   * @returns The result of the query to the stripe API.
+   */
   route.post('/update-price', async (req, res, next) => {
     const newPrice = 11111 // El precio debe ser enviado desde su backend
     const product = 'Cloumize' // El producto a actualizar debe ser enviado desde su backend
@@ -60,6 +76,11 @@ export default (app: Router): void => {
     res.send({ subscription })
   }) // Admin route
 
+  /**
+   * This route is used to create a payment intent.
+   * @param {string} lookup_key - string - The reference to the service.
+   * @returns The result of the query to the stripe API.
+   */
   route.post('/create-checkout-session', async (req, res, next) => {
     const prices = await stripe.prices.list({
       lookup_keys: [req.body.lookup_key],
@@ -81,6 +102,10 @@ export default (app: Router): void => {
     res.send({ sessionURL: session.url })
   })
 
+  /**
+   * This route is used to create a payment intent.
+   * @returns The result of the query to the stripe API.
+   */
   route.post('/create-portal-session', async (req: any, res, next: NextFunction) => {
     // For demonstration purposes, we're using the Checkout session to retrieve the customer ID.
     // Typically this is stored alongside the authenticated user in your database.
@@ -101,6 +126,10 @@ export default (app: Router): void => {
     res.send({ portalSession: portalSession.url })
   })
 
+  /**
+   * This route is used to subscribe to a webhook and litsen to certain events.
+   * @returns The event-casted information.
+   */
   route.post('/webhook', express.raw({ type: 'application/json' }), (request, response) => {
     let event = request.body
     // Replace this endpoint secret with your endpoint's unique secret

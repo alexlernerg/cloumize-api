@@ -9,9 +9,18 @@ import UserService from '../../services/user.service'
 
 const route = Router()
 
+/**
+ * This routes are used for CRUD operations on the Cloumize DB via the Cloumize API's.
+ * @returns The data routes.
+ */
 export default (app: Router): void => {
   app.use(route)
 
+  /**
+   * This route is used to GET(READ) data from the Cloumize DB.
+   * It requires isUserAuth middleware (user is logged in)
+   * @returns The result of the GET query to the cloumize API.
+   */
   route.get('/data/:page',
     isUserAuth,
     async (req: any, res: any, next: NextFunction) => {
@@ -45,6 +54,13 @@ export default (app: Router): void => {
       }
     })
 
+  /**
+   * This route is used to POST (CREATE) data to the Cloumize DB.
+   * It requires isUserAuth middleware (user is logged in)
+   * @param {string} page - string - The reference to set the API URL for the query.
+   * @param {any} data - any - The data object to post.
+   * @returns The result of the POST query to the cloumize API.
+   */
   route.post('/data/:page',
     isUserAuth,
     async (req: any, res: any, next: NextFunction) => {
@@ -81,6 +97,13 @@ export default (app: Router): void => {
       }
     })
 
+  /**
+   * This route is used to PUT (UPDATE) data from the Cloumize DB.
+   * It requires isUserAuth middleware (user is logged in)
+   * @param {string} page - string - The reference to set the API URL for the query.
+   * @param {any} data - any - The data object to put.
+   * @returns The result of the PUT query to the cloumize API.
+   */
   route.put('/data/:page',
     isUserAuth,
     async (req: any, res: any, next: NextFunction) => {
@@ -116,6 +139,13 @@ export default (app: Router): void => {
       }
     })
 
+  /**
+   * This route is used to DELETE (ELIMINATE) data from the Cloumize DB.
+   * It requires isUserAuth middleware (user is logged in)
+   * @param {string} page - string - The reference to set the API URL for the query.
+   * @param {any} data - any - The data object contains the id of the entry to delete.
+   * @returns The result of the PUT query to the cloumize API.
+   */
   route.delete('/data/:page',
     isUserAuth,
     async (req: any, res: any, next: NextFunction) => {

@@ -1,13 +1,23 @@
 import { Router, NextFunction } from 'express'
 import AuthService from '../../../services/auth/auth.user.service'
 import { Container } from 'typedi'
-import { isUserAuth, ValidateLogin, ValidateSignUp } from '../../middlewares'
+import { ValidateLogin, ValidateSignUp } from '../../middlewares'
 
 const route = Router()
 
+/**
+ * This routes are used for user Authentication and Authorization.
+ * @returns The user auth. routes.
+ */
 export default (app: Router): void => {
   app.use('/auth', route)
 
+  /**
+   * This route is used to login into the App.
+   * @param {string} email - string - The user email.
+   * @param {string} password - string - The user password.
+   * @returns A JWT.
+   */
   route.post('/login', ValidateLogin, async (req, res, next: NextFunction) => {
     try {
       const { email, password } = req.body
@@ -20,6 +30,12 @@ export default (app: Router): void => {
     }
   })
 
+  /**
+   * This route is used to signup into the App.
+   * @param {string} email - string - The user email.
+   * @param {string} password - string - The user password.
+   * @returns A JWT.
+   */
   route.post('/signup', ValidateSignUp, async (req, res, next: NextFunction) => {
     try {
       const { email, password } = req.body
@@ -28,26 +44,6 @@ export default (app: Router): void => {
       return res.json(signup).status(200)
     } catch (e) {
       console.error('🔥 error: %o', e)
-      return next(e)
-    }
-  })
-
-  /**
-   * @TODO Let's leave this as a place holder for now
-   * The reason for a logout route could be deleting a 'push notification token'
-   * so the device stops receiving push notifications after logout.
-   *
-   * Another use case for advance/enterprise apps, you can store a record of the jwt token
-   * emitted for the session and add it to a black list.
-   * It's really annoying to develop that but if you had to, please use Redis as your data store
-   */
-  route.post('/logout', isUserAuth, (req, res, next: NextFunction) => {
-    console.info('Calling Sign-Out endpoint with body: %o', req.body)
-    try {
-      // @TODO AuthService.Logout(req.user) do some clever stuff
-      return res.status(200).end()
-    } catch (e) {
-      console.error('🔥 error %o', e)
       return next(e)
     }
   })

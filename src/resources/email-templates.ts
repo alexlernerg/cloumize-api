@@ -21,7 +21,7 @@ export const newEmployeeEmail = (name: string, surname: string, password: string
       /* -------------------------------------
             GLOBAL RESETS
         ------------------------------------- */
-  
+
       /*All the styling goes here*/
   
       img {
@@ -385,7 +385,7 @@ export const newEmployeeEmail = (name: string, surname: string, password: string
                     <tr>
                       <td>
                         <p>Hola ${name} ${surname},</p>
-                        <p>Aquí tienes el usuario y contraseña con el que podrás acceder al intranet de Change The Block:</p>
+                        <p>Aquí tienes el usuario y contraseña con el que podrás acceder a Cloumize:</p>
                         <p>
                         <div>Usuario: ${email}</div>
                         <div>Contraseña: ${password}</div>
