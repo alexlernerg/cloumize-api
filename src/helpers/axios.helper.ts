@@ -9,6 +9,11 @@ import { appConfig } from '../config'
  * @returns The response.data or the error.
  */
 export async function AxiosHelper({ page, _method, headers, data }: IAxiosService): Promise<void> {
+  console.log('METHOD: ', _method)
+  console.log('PAGE: ', page)
+  console.log('HEADERS: ', headers)
+  console.log('DATA: ', data)
+
   const config: AxiosRequestConfig<any> = {
     method: _method,
     url: appConfig.API.URLS[page],

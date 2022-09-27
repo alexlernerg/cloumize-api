@@ -45,7 +45,6 @@ export default (app: Router): void => {
           }
 
           const result = await Container.get(ApiDataService).ReadData({ page, headers })
-          console.log('result', result)
           return res.json(result).status(200)
         }
       } catch (e) {
@@ -76,7 +75,6 @@ export default (app: Router): void => {
 
           // GET USER CM ID IN DB.
           const { user_uuid, id: _ID } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
-          console.log('id', _ID)
           // POPULATE HEADERS.
           const headers = {
             authToken: process.env.API_KEY || 'abc123',
@@ -85,7 +83,6 @@ export default (app: Router): void => {
           }
 
           // ADD EXTRA DATA TO PAYLOAD WHEN NEEDED.
-          console.log('DATA', data)
           if (page === 'aprove-saving-finder' || page === 'insert-arn') data.user_id_cm = '2'
 
           const result = await Container.get(ApiDataService).CreateData({ page, headers, data })

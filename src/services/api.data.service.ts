@@ -21,7 +21,6 @@ export class ApiDataService {
    * @returns The return value is the response from the server.
    */
   async CreateData({ page, headers, data }: ICreateData): Promise<any> {
-    console.log('CALLING POST DATA :', page, headers, data)
     return await this.axiosHelper({ page, _method: 'POST', headers, data })
   }
 
@@ -32,10 +31,7 @@ export class ApiDataService {
    * @returns The return value is the result of the axiosHelper function.
    */
   async ReadData({ page, headers }: IReadData): Promise<any> {
-    console.log('CALLING GET DATA :', page, headers)
-
     const response = await this.axiosHelper({ page, _method: 'GET', headers })
-    console.log('responseAXIOS', response)
     return response
   }
 
@@ -46,7 +42,6 @@ export class ApiDataService {
     * @returns The return value is the response from the server.
     */
   async UpdateData({ page, headers, data }: IUpdateData): Promise<any> {
-    console.log('CALLING PUT DATA :', page, headers, data)
     return await this.axiosHelper({ page, _method: 'PUT', headers, data })
   }
 
@@ -57,7 +52,6 @@ export class ApiDataService {
     * @returns The return value is the response from the server.
     */
   async DeleteData({ page, headers, data }: IDeleteData): Promise<any> {
-    console.log('CALLING DELETE DATA :', page, headers, data)
     await this.axiosHelper({ page, _method: 'DELETE', headers, data })
   }
 }
