@@ -37,11 +37,11 @@ export default (app: Router): void => {
           // GET user_id_cm IN DB (FOR THE REQ HEADERS).
           const user = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
 
-          const { id: _ID } = user // TODO: CAMBIAR por const { id: _ID } = user[0] ;
+          const { user_uuid, id: _ID } = user // TODO: CAMBIAR por const { id: _ID } = user[0] ;
           const headers = {
             authToken: process.env.API_KEY || 'abc123',
             id: `${_ID}`,
-            uuid: `${id}` // TODO: CAMBIAR EN HEADERS POR SALT salt: `${salt}`
+            uuid: `${user_uuid}` // TODO: CAMBIAR EN HEADERS POR SALT salt: `${salt}`
           }
 
           const result = await Container.get(ApiDataService).ReadData({ page, headers })
@@ -75,13 +75,13 @@ export default (app: Router): void => {
           const { id } = req.token
 
           // GET USER CM ID IN DB.
-          const { id: _ID } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
+          const { user_uuid, id: _ID } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
           console.log('id', _ID)
           // POPULATE HEADERS.
           const headers = {
             authToken: process.env.API_KEY || 'abc123',
             id: _ID,
-            uuid: id
+            uuid: user_uuid
           }
 
           // ADD EXTRA DATA TO PAYLOAD WHEN NEEDED.
@@ -118,13 +118,13 @@ export default (app: Router): void => {
           const { id } = req.token
 
           // GET USER CM ID IN DB.
-          const { id: _ID } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
+          const { user_uuid, id: _ID } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
 
           // POPULATE HEADERS.
           const headers = {
             authToken: process.env.API_KEY || 'abc123',
             id: _ID,
-            uuid: id
+            uuid: user_uuid
           }
 
           // ADD EXTRA DATA TO PAYLOAD WHEN NEEDED.
@@ -160,13 +160,13 @@ export default (app: Router): void => {
           const { id } = req.token
 
           // GET USER CM ID IN DB.
-          const { id: _ID } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
+          const { user_uuid, id: _ID } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
 
           // POPULATE HEADERS.
           const headers = {
             authToken: process.env.API_KEY || 'abc123',
             id: _ID,
-            uuid: id
+            uuid: user_uuid
           }
           const result = await Container.get(ApiDataService).DeleteData({ page, headers, data })
           return res.json(result).status(200)

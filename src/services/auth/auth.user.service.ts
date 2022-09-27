@@ -80,7 +80,8 @@ export default class AuthService {
       password: hashedPassword,
       salt: salt.toString('hex'),
       created_at: new Date(),
-      external_id: uuidv4() // TODO: TAL VEZ HAY QUE CAMBIAR EXTERNAL_ID POR OTRO VALOR AL CREAR EL TOKEN?
+      user_uuid: uuidv4(),
+      external_id: uuidv4()
     }
 
     const { insertId } = await this.userModel.Create(newUser)

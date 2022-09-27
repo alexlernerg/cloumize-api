@@ -2,7 +2,7 @@ import { Method } from 'axios'
 
 /* eslint-disable camelcase */
 export interface IUser {
-  idUser?: number;
+  id?: number;
   email?: string;
   password: string;
   salt: string;
@@ -10,6 +10,8 @@ export interface IUser {
   created_at?: Date;
   updated_at?: Date;
   external_id?: string;
+  user_uuid?: string;
+
 }
 
 export interface IUserInput {
