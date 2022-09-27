@@ -8,7 +8,7 @@ import { appConfig } from '../config'
  * @param {IAxiosService}  - page: The page you want to access.
  * @returns The response.data or the error.
  */
-async function AxiosHelper ({ page, _method, headers, data }: IAxiosService): Promise<void> {
+export async function AxiosHelper({ page, _method, headers, data }: IAxiosService): Promise<void> {
   const config: AxiosRequestConfig<any> = {
     method: _method,
     url: appConfig.API.URLS[page],
@@ -23,18 +23,11 @@ async function AxiosHelper ({ page, _method, headers, data }: IAxiosService): Pr
 
   if (data) config['data'] = data
 
-  try {
-    await axios(config)
-      .then(function (response) {
-        console.log('responseAPI', response.data)
-        return response.data
-      })
-      .catch(function (error) {
-        return error
-      })
-  } catch (error) {
-    return (error)
-  }
+  return await axios(config)
+    .then(function (response) {
+      return response.data
+    })
+    .catch(function (error) {
+      return error
+    })
 }
-
-export { AxiosHelper }
