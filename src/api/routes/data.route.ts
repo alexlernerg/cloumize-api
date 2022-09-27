@@ -36,6 +36,7 @@ export default (app: Router): void => {
           }
 
           const result = await Container.get(ApiDataService).ReadData({ page, headers })
+          console.log('result', result)
           return res.json(result).status(200)
         }
       } catch (e) {

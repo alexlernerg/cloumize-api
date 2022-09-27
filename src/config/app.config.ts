@@ -20,7 +20,7 @@ export default {
     post: '3306',
     user: 'ctb_team',
     password: 'ctb@Cloumize1',
-    database: 'cloumize_dev'
+    database: 'cloumize_dev_lambda'
   },
 
   /**

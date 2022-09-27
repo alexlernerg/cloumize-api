@@ -34,7 +34,9 @@ export class ApiDataService {
   async ReadData({ page, headers }: IReadData): Promise<any> {
     console.log('CALLING GET DATA :', page, headers)
 
-    return await this.axiosHelper({ page, _method: 'GET', headers })
+    const response = await this.axiosHelper({ page, _method: 'GET', headers })
+    console.log('responseAXIOS', response)
+    return response
   }
 
   /**

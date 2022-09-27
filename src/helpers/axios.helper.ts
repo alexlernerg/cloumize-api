@@ -26,6 +26,7 @@ async function AxiosHelper ({ page, _method, headers, data }: IAxiosService): Pr
   try {
     await axios(config)
       .then(function (response) {
+        console.log('responseAPI', response.data)
         return response.data
       })
       .catch(function (error) {
