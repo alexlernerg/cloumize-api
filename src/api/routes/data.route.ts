@@ -28,7 +28,7 @@ export default (app: Router): void => {
           // GET user_id_cm IN DB (FOR THE REQ HEADERS).
           const user = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
 
-          const { id: _ID } = user[0] // TODO: CAMBIAR por const { id: _ID } = user[0] ;
+          const { id: _ID } = user // TODO: CAMBIAR por const { id: _ID } = user[0] ;
           const headers = {
             authToken: process.env.API_KEY || 'abc123',
             id: `${_ID}`,
@@ -60,7 +60,7 @@ export default (app: Router): void => {
 
           // GET USER CM ID IN DB.
           const { id: _ID } = await Container.get(UserService).ReadByField({ key: 'external_id', value: id })
-
+          console.log('id', _ID)
           // POPULATE HEADERS.
           const headers = {
             authToken: process.env.API_KEY || 'abc123',

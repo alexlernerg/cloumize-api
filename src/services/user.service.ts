@@ -57,12 +57,13 @@ export default class UserService {
    */
   async ReadByField(data: any): Promise<any> {
     const _data = await this.userModel.GetByField(data)
+    console.log('data', _data[0])
 
-    if (!_data) {
+    if (!_data[0]) {
       throw new Error('Data not found for key-value')
     }
 
-    return _data
+    return _data[0]
   }
 
   /**
