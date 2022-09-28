@@ -9,10 +9,6 @@ import UserService from '../../services/user.service'
 
 const route = Router()
 
-/**
- * This routes are used for CRUD operations on the Cloumize DB via the Cloumize API's.
- * @returns The data routes.
- */
 export default (app: Router): void => {
   app.use(route)
 

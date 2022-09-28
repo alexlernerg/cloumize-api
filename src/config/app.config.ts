@@ -1,19 +1,10 @@
 export default {
-  /**
-   * PORT DEFAULT
-   */
   PORT: process.env.PORT || 8080,
   HOST: process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost',
 
-  /**
-   * JWT CONFIG
-   */
   JWT_USER_SECRECT: '00bbac6bf85b2c0132180d23ee237bcf74a492f71087ac57e5f4326b321b1480',
   JWT_ALGORITHM: 'HS256',
 
-  /**
-   * DATABASE CONFIG
-   */
   // TODO: CAMBIAR A SU NUEVA BASE DE DATOS.
   DATABASE: {
     host: 'database-sandbox.cccmjxkosivs.eu-west-3.rds.amazonaws.com',
@@ -23,9 +14,6 @@ export default {
     database: 'cloumize_dev_lambda'
   },
 
-  /**
-   * API CONFIG
-   */
   API: {
     PREFIX: '/api',
     URLS: {
@@ -40,15 +28,8 @@ export default {
     }
   },
 
-  /**
-   * API KEY
-   */
-
   API_KEY: '9b8c61ec-1818-4647-b038-bd2676c522b7',
 
-  /**
-   * MAIL
-   */
   MAIL: {
     host: 'smtp.gmail.com',
     service: 'gmail',
@@ -57,10 +38,6 @@ export default {
       pass: 'pzaittepyjkyxryt'
     }
   },
-
-  /**
-   * Document path
-   */
 
   DOCUMENT_PATH: './src/uploads/documents',
 

@@ -2,8 +2,9 @@ import 'reflect-metadata' // We need this in order to use @Decorators
 import express from 'express'
 import { appConfig } from './config'
 import loader from './loaders'
+
 /**
- * Start app server
+ * It creates an express app, loads the routes, and starts the server
  */
 async function startServer (): Promise<any> {
   const app = express()

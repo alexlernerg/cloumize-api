@@ -2,7 +2,6 @@
 import mysql from 'mysql'
 import { appConfig } from '../config'
 
-/* TEST MYSQL THAT DB CONNECTION WORKS */
 export default (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     const session = mysql.createConnection(appConfig.DATABASE)

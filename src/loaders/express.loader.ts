@@ -15,7 +15,9 @@ export default ({ app }: IExpress): void => {
     res.status(200).end()
   })
 
-  // Enable cors
+  /**
+  * A middleware that allows cross-origin resource sharing.
+  */
   app.use(
     cors({
       origin: [appConfig.FRONT_URL, appConfig.DEV_URL],
@@ -23,18 +25,27 @@ export default ({ app }: IExpress): void => {
     })
   )
 
-  app.use(function(req, res, next) {
+  /**
+  * This is a middleware that sets the header if-none-match to no-match-for-this.
+  */
+  app.use(function (req, res, next) {
     req.headers['if-none-match'] = 'no-match-for-this'
     next()
   })
 
-  // Transforms the raw string of req.body into json
+  /**
+    * A middleware that parses the body of the request and makes it available in the req.body object.
+    */
   app.use(express.json())
 
-  // Load API routes
+  /**
+    * A middleware that is used to prefix all the routes with the API prefix.
+    */
   app.use(appConfig.API.PREFIX, routes())
 
-  /// catch 404 and forward to error handler
+  /**
+  * This is a middleware that is used to catch all the routes that are not defined in the application.
+  */
   app.use((req, res, next: NextFunction) => {
     next({
       message: 'Not Found',
@@ -42,7 +53,9 @@ export default ({ app }: IExpress): void => {
     })
   })
 
-  /// error handlers
+  /**
+   * This is a middleware that is used to catch all the routes that are not defined in the application.
+   */
   app.use((err: any, req: any, res: any, next: NextFunction) => {
     /**
      * Handle 401 thrown by express-jwt library
@@ -56,6 +69,9 @@ export default ({ app }: IExpress): void => {
     return next(err)
   })
 
+  /**
+  * This is a middleware that is used to catch all the routes that are not defined in the application.
+  */
   app.use((err: any, req: any, res: any, next: NextFunction) => {
     res.status(err.status || 500)
     res.json({

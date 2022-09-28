@@ -5,10 +5,6 @@ import { ValidateLogin, ValidateSignUp } from '../../middlewares'
 
 const route = Router()
 
-/**
- * This routes are used for user Authentication and Authorization.
- * @returns The user auth. routes.
- */
 export default (app: Router): void => {
   app.use('/auth', route)
 

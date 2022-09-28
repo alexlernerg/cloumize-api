@@ -10,10 +10,6 @@ import {
 
 const route = Router()
 
-/**
- * This routes are used for user related queries.
- * @returns The user related routes.
- */
 export default (app: Router): void => {
   app.use('/user', route)
 

@@ -9,7 +9,7 @@ declare global {
     }
 
     export interface Response {
-      status: number;
+      status: any;
     }
   }
 

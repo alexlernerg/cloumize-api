@@ -10,10 +10,6 @@ const stripe = require('stripe')(
 
 const route = Router()
 
-/**
- * This routes are used for payment operations via Stripe.
- * @returns The stripe payment routes.
- */
 export default (app: Router): void => {
   app.use(express.static('public'))
   app.use(express.urlencoded({ extended: true }))
