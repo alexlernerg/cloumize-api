@@ -36,15 +36,26 @@ export default (app: Router): void => {
    * @param {string} password - string - The user password.
    * @returns A JWT.
    */
-  route.post('/signup', ValidateSignUp, async (req, res, next: NextFunction) => {
-    try {
-      const { email, password } = req.body
-      const signup = await Container.get(AuthService).SignUp({ email, password })
+  route.post(
+    '/signup',
+    ValidateSignUp,
+    async (req, res, next: NextFunction) => {
+      try {
+        const { email, password, awsAccountName, companyName, userName } = req.body
+        console.log('req.body', req.body)
+        const signup = await Container.get(AuthService).SignUp({
+          email,
+          password,
+          awsAccountName,
+          companyName,
+          userName
+        })
 
-      return res.json(signup).status(200)
-    } catch (e) {
-      console.error('🔥 error: %o', e)
-      return next(e)
+        return res.json(signup).status(200)
+      } catch (e) {
+        console.error('🔥 error: %o', e)
+        return next(e)
+      }
     }
-  })
+  )
 }

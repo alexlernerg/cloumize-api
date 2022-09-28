@@ -28,7 +28,10 @@ const ValidateLogin = celebrate({
 const ValidateSignUp = celebrate({
   body: Joi.object({
     email: Joi.string().required(),
-    password: Joi.string().optional()
+    password: Joi.string().optional(),
+    awsAccountName: Joi.string().optional(),
+    companyName: Joi.string().optional(),
+    userName: Joi.string().optional()
   })
 })
 

@@ -62,7 +62,7 @@ export default class AuthService {
    * @param user - {email: string, password: string}
    * @returns The id of the user created
    */
-  async SignUp(user: { email: string; password: string }): Promise<boolean> {
+  async SignUp(user: { email: string; password: string; awsAccountName:string; companyName:string; userName:string }): Promise<boolean> {
     const { email } = user
     const response = await this.userModel.GetByField({ key: 'email', value: email })
     const _user = response[0]
@@ -77,6 +77,9 @@ export default class AuthService {
 
     const newUser: IUser = {
       email: user.email,
+      user_name: user.userName,
+      company_name: user.companyName,
+      aws_account_name: user.awsAccountName,
       password: hashedPassword,
       salt: salt.toString('hex'),
       created_at: new Date(),
