@@ -11,7 +11,9 @@ export interface IUser {
   updated_at?: Date;
   external_id?: string;
   user_uuid?: string;
-
+  user_name?: string;
+  company_name?: string;
+  aws_account_name?: string;
 }
 
 export interface IUserInput {
