@@ -62,7 +62,7 @@ export default class AuthService {
    * @param user - {email: string, password: string}
    * @returns The id of the user created
    */
-  async SignUp(user: { email: string; password: string; awsAccountName:string; companyName:string; userName:string }): Promise<boolean> {
+  async SignUp(user: { email: string; password: string; awsAccountName: string; companyName: string; userName: string }): Promise<boolean> {
     const { email } = user
     const response = await this.userModel.GetByField({ key: 'email', value: email })
     const _user = response[0]
@@ -91,6 +91,12 @@ export default class AuthService {
 
     if (!insertId) {
       throw new Error('El usuario no se ha creado')
+    }
+
+    const { affectedRows } = await this.userModel.Put(insertId, { user_id_cm: insertId })
+
+    if (affectedRows === 0) {
+      throw new Error('El user_cm_id no se ha creado correctamente')
     }
 
     return true
