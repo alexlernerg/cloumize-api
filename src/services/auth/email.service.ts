@@ -5,7 +5,7 @@ import { newEmployeeEmail, recoverPassword } from '../../resources/email-templat
 import SMTPTransport from 'nodemailer/lib/smtp-transport'
 
 /**
- * @category Email Service
+ * @remarks Email Service
  * This Services is responsible for sending emails.
  */
 @Service()

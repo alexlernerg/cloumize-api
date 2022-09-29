@@ -4,7 +4,7 @@ import { appConfig } from './config'
 import loader from './loaders'
 
 /**
- * @category Data Service
+ * @remarks Data Service
  * This is the entry point of the Express App hosting the API.
  */
 async function startServer (): Promise<any> {

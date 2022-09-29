@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken'
 import { UserModel } from './../models'
 
 /**
- * @category Data Service
+ * @remarks Data Service
  * This Services is responsible of handling the user route logic.
  */
 @Service()

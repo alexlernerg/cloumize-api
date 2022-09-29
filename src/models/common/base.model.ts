@@ -4,7 +4,7 @@ import _DatabaseModel from './database.model'
 import { Database } from '../../types/interfaces/models'
 
 /**
- * @category BASE MODEL
+ * @remarks BASE MODEL
  * Implements all the basic CRUD MySQL operations.
  */
 @Service()

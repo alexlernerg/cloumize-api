@@ -9,7 +9,7 @@ import { isValidPage } from '../middlewares/validation/validation.data'
 const route = Router()
 
 /**
- * @category DATA ROUTES
+ * @remarks DATA ROUTES
  */
 export default (app: Router): void => {
   app.use(route)

@@ -9,7 +9,7 @@ import { randomBytes } from 'crypto'
 import { v4 as uuidv4 } from 'uuid'
 
 /**
- * @category Auth User Service
+ * @remarks Auth User Service
  * This Services is responsible for the user auth routes logic.
  */
 @Service()

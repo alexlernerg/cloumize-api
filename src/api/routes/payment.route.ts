@@ -11,7 +11,7 @@ const stripe = require('stripe')(
 const route = Router()
 
 /**
- * @category PAYMENT ROUTES
+ * @remarks PAYMENT ROUTES
  */
 export default (app: Router): void => {
   app.use(express.static('public'))

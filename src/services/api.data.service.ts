@@ -4,7 +4,7 @@ import { Service } from 'typedi'
 import { AxiosHelper } from '../helpers/axios.helper'
 
 /**
- * @category Data Service
+ * @remarks Data Service
  * This Services is the one responsible of handling the API calls to Cloumize.
  */
 @Service()
@@ -24,9 +24,9 @@ export class ApiDataService {
    */
   async CreateData({ page, id, data: _data }: ICreateData): Promise<any> {
     const headers = await this.GetHeaders(id)
-    const data = this.AppendData(page, id, _data)
+    const data = await this.AppendData(page, id, _data)
 
-    return await AxiosHelper({ page, _method: 'POST', headers, data })
+    return AxiosHelper({ page, _method: 'POST', headers, data })
   }
 
   /**
@@ -37,7 +37,7 @@ export class ApiDataService {
   async ReadData({ page, id }: IReadData): Promise<any> {
     const headers = await this.GetHeaders(id)
 
-    return await AxiosHelper({ page, _method: 'GET', headers })
+    return AxiosHelper({ page, _method: 'GET', headers })
   }
 
   /**
@@ -48,7 +48,7 @@ export class ApiDataService {
   async UpdateData({ page, id, data: _data }: IUpdateData): Promise<any> {
     const headers = await this.GetHeaders(id)
     const data = this.AppendData(page, id, _data)
-    return await AxiosHelper({ page, _method: 'PUT', headers, data })
+    return AxiosHelper({ page, _method: 'PUT', headers, data })
   }
 
   /**
@@ -59,7 +59,7 @@ export class ApiDataService {
   async DeleteData({ page, id, data }: IDeleteData): Promise<any> {
     const headers = await this.GetHeaders(id)
 
-    return await AxiosHelper({ page, _method: 'DELETE', headers, data })
+    return AxiosHelper({ page, _method: 'DELETE', headers, data })
   }
 
   /**

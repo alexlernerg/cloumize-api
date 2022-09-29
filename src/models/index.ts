@@ -3,7 +3,7 @@ import { Service } from 'typedi'
 import BaseModel from './common/base.model'
 
 /**
- * @category USER MODEL
+ * @remarks USER MODEL
  * Implements a UserModel that inherits from the BaseModel.
  */
 @Service()
