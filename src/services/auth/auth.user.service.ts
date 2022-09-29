@@ -8,6 +8,10 @@ import { UserHelper } from '../../helpers/user.helper'
 import { randomBytes } from 'crypto'
 import { v4 as uuidv4 } from 'uuid'
 
+/**
+ * @category Auth User Service
+ * This Services is responsible for the user auth routes logic.
+ */
 @Service()
 export default class AuthService {
   /**
@@ -83,20 +87,20 @@ export default class AuthService {
       password: hashedPassword,
       salt: salt.toString('hex'),
       created_at: new Date(),
-      external_id: uuidv4(), // TODO: TAL VEZ HAY QUE CAMBIAR EXTERNAL_ID POR OTRO VALOR AL CREAR EL TOKEN?
+      external_id: uuidv4(),
       user_uuid: uuidv4()
     }
 
     const { insertId } = await this.userModel.Create(newUser)
 
     if (!insertId) {
-      throw new Error('El usuario no se ha creado')
+      throw new Error('El usuario no se ha creado correctamente')
     }
 
     const { affectedRows } = await this.userModel.Put(insertId, { user_id_cm: insertId })
 
     if (affectedRows === 0) {
-      throw new Error('El user_cm_id no se ha creado correctamente')
+      throw new Error('El user_cm_id no se ha insertado correctamente')
     }
 
     return true

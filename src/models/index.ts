@@ -2,6 +2,10 @@ import { appConfig } from '../config'
 import { Service } from 'typedi'
 import BaseModel from './common/base.model'
 
+/**
+ * @category USER MODEL
+ * Implements a UserModel that inherits from the BaseModel.
+ */
 @Service()
 export class UserModel extends BaseModel {
   /**

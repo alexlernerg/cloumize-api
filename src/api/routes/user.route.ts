@@ -10,6 +10,9 @@ import {
 
 const route = Router()
 
+/**
+ * @category USER ROUTES
+ */
 export default (app: Router): void => {
   app.use('/user', route)
 

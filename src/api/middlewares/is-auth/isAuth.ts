@@ -3,19 +3,12 @@ import jwt from 'express-jwt'
 import { appConfig } from '../../../config'
 
 /**
- * We are assuming that the JWT will come in a header with the form
- *
- * Authorization: Bearer ${JWT}
- *
- * But it could come in a query parameter with the name that you want like
- * GET https://my-bulletproof-api.com/stats?apiKey=${JWT}
- * Luckily this API follow _common sense_ ergo a _good design_ and don't allow that ugly stuff
+ * If the authorization header is present and starts with the word "Token" or "Bearer", return the
+ * token. Otherwise, return null
+ * @param {any} req - any: This is the request object that is passed to the middleware function.
+ * @returns The token from the header
  */
 const getTokenFromHeader = (req: any): void => {
-  /**
-   * @TODO Edge and Internet Explorer do some weird things with the headers
-   * So I believe that this should handle more 'edge' cases ;)
-   */
   if (
     (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Token') ||
     (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer')
@@ -26,10 +19,11 @@ const getTokenFromHeader = (req: any): void => {
 }
 
 /**
- * It's a middleware function that checks if the user is authenticated
- * @param {string} key - The key is the type of token you want to verify.
- * @returns A function that takes a key as a parameter and returns a function that takes a request and
- * response as parameters.
+ * It's a middleware that checks if the request has a valid JWT token in the header
+ * @param {string} key - The key is the type of token you want to verify. For example, if you want to
+ * verify the access token, you can pass the key as access.
+ * @returns A function that takes a key and returns a function that takes a request and returns a
+ * response.
  */
 export default function isAuth (key:string): e.RequestHandler {
   return jwt({

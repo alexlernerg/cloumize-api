@@ -3,6 +3,10 @@ import { Service } from 'typedi'
 import _DatabaseModel from './database.model'
 import { Database } from '../../types/interfaces/models'
 
+/**
+ * @category BASE MODEL
+ * Implements all the basic CRUD MySQL operations.
+ */
 @Service()
 export default class BaseModel extends _DatabaseModel {
   private table: string

@@ -2,6 +2,10 @@ import mysql from 'mysql'
 import { Database } from '../../types/interfaces/models'
 import { Service } from 'typedi'
 
+/**
+ * @category DATABASE MODEL
+ * Connects to the DB given and sends a query using a internal method executeQuery.
+ */
 @Service()
 export default class _DatabaseModel {
   private connection: any

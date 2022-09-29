@@ -10,6 +10,9 @@ const stripe = require('stripe')(
 
 const route = Router()
 
+/**
+ * @category PAYMENT ROUTES
+ */
 export default (app: Router): void => {
   app.use(express.static('public'))
   app.use(express.urlencoded({ extended: true }))

@@ -4,6 +4,10 @@ import { appConfig } from '../../config'
 import { newEmployeeEmail, recoverPassword } from '../../resources/email-templates'
 import SMTPTransport from 'nodemailer/lib/smtp-transport'
 
+/**
+ * @category Email Service
+ * This Services is responsible for sending emails.
+ */
 @Service()
 export default class EmailService {
   private transporter = nodemailer.createTransport(appConfig.MAIL)

@@ -2,10 +2,11 @@ import { Method } from 'axios'
 
 /* eslint-disable camelcase */
 export interface IUser {
-  id?: number;
+  id?: string| number;
+  user_id_cm?: string|number;
   email?: string;
-  password: string;
-  salt: string;
+  password?: string;
+  salt?: string;
   deleted?: boolean;
   created_at?: Date;
   updated_at?: Date;
@@ -45,28 +46,28 @@ export interface IAxiosService {
   page: string;
   _method: Method;
   headers: IHeaders;
-  data?: {};
+  data?: any
 }
 
 export interface ICreateData {
   page: string;
-  headers: IHeaders;
-  data: {};
+  id: number|string;
+  data: any
 }
 
 export interface IReadData {
   page: string;
-  headers: IHeaders;
+  id: number | string;
 }
 
 export interface IUpdateData {
   page: string;
-  headers: IHeaders;
-  data: {};
+  id: number | string;
+  data: any
 }
 
 export interface IDeleteData {
   page: string;
-  headers: IHeaders;
-  data: {};
+  id: number | string;
+  data: any
 }

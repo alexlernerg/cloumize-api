@@ -4,7 +4,8 @@ import { appConfig } from './config'
 import loader from './loaders'
 
 /**
- * It creates an express app, loads the routes, and starts the server
+ * @category Data Service
+ * This is the entry point of the Express App hosting the API.
  */
 async function startServer (): Promise<any> {
   const app = express()

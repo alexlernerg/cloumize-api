@@ -8,6 +8,10 @@ import EmailService from './auth/email.service'
 import jwt from 'jsonwebtoken'
 import { UserModel } from './../models'
 
+/**
+ * @category Data Service
+ * This Services is responsible of handling the user route logic.
+ */
 @Service()
 export default class UserService {
   /**

@@ -1,7 +1,7 @@
+import { NextFunction } from 'express'
 import { appConfig } from '../../../config'
 import { celebrate, Joi } from 'celebrate'
 
-/* A function that takes a string as an argument and returns a boolean. */
 export const ValidateData = celebrate({
   body: Joi.object({
     idUser: Joi.number().optional(),
@@ -17,6 +17,11 @@ export const ValidateData = celebrate({
  * @param {string} page - The page you want to check
  * @returns An array of strings.
  */
-export function isValidPage(page: string): boolean {
-  return Object.keys(appConfig.API.URLS).includes(page)
+export function isValidPage(req:any, res:any, next:NextFunction):any {
+  console.log('THE URL IS', req.params.page, Object.keys(appConfig.API.URLS).includes(req.params.page))
+  if (!Object.keys(appConfig.API.URLS).includes(req.params.page)) {
+    return res.status(422).send('Unprocessable Entity')
+  } else {
+    return next()
+  }
 }

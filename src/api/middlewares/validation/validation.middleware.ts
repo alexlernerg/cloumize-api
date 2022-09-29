@@ -1,5 +1,6 @@
 import { celebrate, Joi } from 'celebrate'
 
+/* Validating the data that is being sent to the server. */
 const ValidateUser = celebrate({
   body: Joi.object({
     idUser: Joi.number().optional(),
