@@ -1,10 +1,10 @@
 import { OkPacket } from 'mysql'
 import { Service } from 'typedi'
 import _DatabaseModel from './database.model'
-import { Database } from '../../types/interfaces/models'
+import { Database } from '../../types/interfaces'
 
 /**
- * @remarks BASE MODEL
+ * @group BASE MODEL
  * Implements all the basic CRUD MySQL operations.
  */
 @Service()
@@ -25,6 +25,7 @@ export default class BaseModel extends _DatabaseModel {
   }
 
   /**
+   * Create Function
    * It takes in a generic type, and returns a promise of an OkPacket
    * @param {Type} data - Type - The data you want to insert into the database.
    * @returns The result of the query.
@@ -34,6 +35,7 @@ export default class BaseModel extends _DatabaseModel {
   }
 
   /**
+   * Get Function
    * It returns a promise of an array of objects of type Type, where Type is the type of the object that
    * the function is called on
    * @param {number} id - number - The id of the row you want to get.
@@ -44,6 +46,7 @@ export default class BaseModel extends _DatabaseModel {
   }
 
   /**
+   * GetAll Function
    * It returns a promise that resolves to an array of objects of type Type
    * @returns An array of objects of type Type.
    */
@@ -52,6 +55,7 @@ export default class BaseModel extends _DatabaseModel {
   }
 
   /**
+   * GetByField Function
    * It returns an array of objects of type Type, where Type is the type of the object you want to return
    * @param {any} field - The field you want to search by.
    * @param {any} value - The value you want to search for.
@@ -63,6 +67,7 @@ export default class BaseModel extends _DatabaseModel {
   }
 
   /**
+   * Put Function
    * We're taking the data object, getting the keys, creating a string with the keys and question marks,
    * and then pushing the values into an array
    * @param {number} id - number - The id of the row you want to update
@@ -89,14 +94,5 @@ export default class BaseModel extends _DatabaseModel {
    */
   public async Delete(id: number): Promise<OkPacket> {
     return await this.executeQuery(`DELETE FROM ${this.table} WHERE ${this.id} = ?`, [id])
-  }
-
-  /**
-   * LogicDelete is a function that takes an id of type number and returns a Promise of type OkPacket.
-   * @param {number} id - the id of the record to be deleted
-   * @returns The return type is a Promise of an OkPacket.
-   */
-  async LogicDelete(id: number): Promise<OkPacket> {
-    return await this.Put<{ deleted: boolean }>(id, { deleted: true })
   }
 }

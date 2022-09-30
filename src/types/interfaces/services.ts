@@ -51,23 +51,23 @@ export interface IAxiosService {
 
 export interface ICreateData {
   page: string;
-  id: number|string;
+  id: string;
   data: any
 }
 
 export interface IReadData {
   page: string;
-  id: number | string;
+  id: string;
 }
 
 export interface IUpdateData {
   page: string;
-  id: number | string;
+  id: string;
   data: any
 }
 
 export interface IDeleteData {
   page: string;
-  id: number | string;
+  id: string;
   data: any
 }

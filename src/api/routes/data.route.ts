@@ -1,28 +1,31 @@
 /* eslint-disable camelcase */
-import { Router, NextFunction } from 'express'
-// import { GetDataService } from '../../services/data.service'
+import { Router, NextFunction, Response } from 'express'
 import Container from 'typedi'
-import { isUserAuth } from '../middlewares'
-import { ApiDataService } from '../../services/api.data.service'
-import { isValidPage } from '../middlewares/validation/validation.data'
+import { isUserAuth, isValidPage } from '../middlewares'
+import { ApiDataService } from '../../services'
+import { IRequest } from '../../types/interfaces'
 
 const route = Router()
 
 /**
- * @remarks DATA ROUTES
+ * @group
+ * It's a function that takes an express app as a parameter and then adds a bunch of routes to it
+ * @param {Router} app - Router - The express router object.
  */
-export default (app: Router): void => {
+export default function DataRoute(app: Router): void {
   app.use(route)
 
   /**
-   * This route is used to GET(READ) data from the Cloumize DB.
+   * A route that is used to GET data from the Cloumize DB.
    * It requires isUserAuth middleware (user is logged in)
+   * It requires isValidPage middleware (page exists)
+   * @param {string} page - string - The reference to set the API URL for the query.
    * @returns The result of the GET query to the cloumize API.
-   */
+  */
   route.get('/data/:page',
     isUserAuth,
     isValidPage,
-    async (req: any, res: any, next: NextFunction) => {
+    async (req: IRequest, res: Response, next: NextFunction) => {
       try {
         const { page } = req.params
         const { id } = req.token
@@ -37,16 +40,17 @@ export default (app: Router): void => {
     })
 
   /**
-   * This route is used to POST (CREATE) data to the Cloumize DB.
+   * A route that is used to POST data to the Cloumize DB.
    * It requires isUserAuth middleware (user is logged in)
+   * It requires isValidPage middleware (page exists)
    * @param {string} page - string - The reference to set the API URL for the query.
    * @param {any} data - any - The data object to post.
    * @returns The result of the POST query to the cloumize API.
-   */
+  */
   route.post('/data/:page',
     isUserAuth,
     isValidPage,
-    async (req: any, res: any, next: NextFunction) => {
+    async (req: IRequest, res: Response, next: NextFunction) => {
       try {
         const { page } = req.params
         const { data } = req.body
@@ -62,16 +66,17 @@ export default (app: Router): void => {
     })
 
   /**
-   * This route is used to PUT (UPDATE) data from the Cloumize DB.
+   * A route that is used to PUT data to the Cloumize DB.
    * It requires isUserAuth middleware (user is logged in)
+   * It requires isValidPage middleware (page exists)
    * @param {string} page - string - The reference to set the API URL for the query.
-   * @param {any} data - any - The data object to put.
-   * @returns The result of the PUT query to the cloumize API.
-   */
+   * @param {any} data - any - The data object to post.
+   * @returns The result of the POST query to the cloumize API.
+  */
   route.put('/data/:page',
     isUserAuth,
     isValidPage,
-    async (req: any, res: any, next: NextFunction) => {
+    async (req: IRequest, res: Response, next: NextFunction) => {
       try {
         const { page } = req.params
         const { data } = req.body
@@ -89,14 +94,15 @@ export default (app: Router): void => {
   /**
    * This route is used to DELETE (ELIMINATE) data from the Cloumize DB.
    * It requires isUserAuth middleware (user is logged in)
+   * It requires isValidPage middleware (page exists)
    * @param {string} page - string - The reference to set the API URL for the query.
    * @param {any} data - any - The data object contains the id of the entry to delete.
-   * @returns The result of the PUT query to the cloumize API.
+   * @returns The result of the DELETE query to the cloumize API.
    */
   route.delete('/data/:page',
     isUserAuth,
     isValidPage,
-    async (req: any, res: any, next: NextFunction) => {
+    async (req: IRequest, res: Response, next: NextFunction) => {
       try {
         const { page } = req.params
         const { data } = req.body

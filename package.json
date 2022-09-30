@@ -8,7 +8,7 @@
     "start": "nodemon src/index.ts",
     "lint": "npx eslint . --ext .ts -f table",
     "lint:fix": "npx eslint . --ext .ts -f table --fix",
-    "docs:generate": "typedoc --sort source-order --entryPointStrategy expand ./src --out docs",
+    "docs:generate": "typedoc --entryPoints src --entryPointStrategy expand --out docs --plugin typedoc-theme-hierarchy --theme hierarchy",
     "docs:check": "open-cli docs/index.html"
   },
   "keywords": [
@@ -45,6 +45,7 @@
     "ts-node": "^10.7.0",
     "tslib": "^2.3.1",
     "typedi": "^0.10.0",
+    "typedoc-theme-hierarchy": "^3.0.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

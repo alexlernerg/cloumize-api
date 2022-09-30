@@ -1,23 +1,18 @@
 import mysql from 'mysql'
-import { Database } from '../../types/interfaces/models'
+import { Database } from '../../types/interfaces'
 import { Service } from 'typedi'
 
 /**
- * @remarks DATABASE MODEL
+ * @group DATABASE MODEL
  * Connects to the DB given and sends a query using a internal method executeQuery.
  */
 @Service()
 export default class _DatabaseModel {
-  private connection: any
-
   /**
-   * The constructor function is a special function that is called when an object is created from a
-   * class.
-   * @param {any} _connection - This is the connection object that is passed to the constructor.
+   * It creates a constructor function that takes in a parameter of type Database.
+   * @param {Database} connection - Database
    */
-  constructor(_connection: Database) {
-    this.connection = _connection
-  }
+  constructor(private connection: Database) {}
 
   /**
    * It creates a new connection to the database, executes the query, and then closes the connection.

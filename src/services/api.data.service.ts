@@ -1,14 +1,14 @@
 import { UserModel } from './../models/index'
-import { ICreateData, IReadData, IUpdateData, IDeleteData, IUser } from '../types/interfaces/services'
+import { ICreateData, IReadData, IUpdateData, IDeleteData, IUser } from '../types/interfaces'
 import { Service } from 'typedi'
-import { AxiosHelper } from '../helpers/axios.helper'
+import { AxiosHelper } from '../helpers'
 
 /**
- * @remarks Data Service
+ * @group Data Service
  * This Services is the one responsible of handling the API calls to Cloumize.
  */
 @Service()
-export class ApiDataService {
+export default class ApiDataService {
   /**
    * The constructor function is a special function that is called when a new instance of the class is
    * created
@@ -53,7 +53,7 @@ export class ApiDataService {
 
   /**
    * It deletes data from the database.
-   * @param {IDeleteData}  - page - the page you want to send the request to
+   * @param {IDeleteData} - page - the page you want to send the request to
    * @returns The return value is the result of the AxiosHelper function.
    */
   async DeleteData({ page, id, data }: IDeleteData): Promise<any> {
@@ -68,7 +68,7 @@ export class ApiDataService {
    * @param {any} id - The id of the user you want to get the headers for.
    * @returns The headers object is being returned.
    */
-  private async GetHeaders(id: any): Promise<any> {
+  private async GetHeaders(id: string): Promise<any> {
     const user = await this.userModel.GetByField<IUser>({ key: 'external_id', value: id })
     // eslint-disable-next-line camelcase
     const { user_id_cm, user_uuid } = user[0]
@@ -84,12 +84,12 @@ export class ApiDataService {
   /**
    * It takes in a page name, an id, and some data, and returns the data with a user_id_cm property
    * added to it
-   * @param page - The page you want to add data to.
-   * @param id - The id of the user you want to get the data from.
-   * @param data - The data to be inserted into the database.
-   * @returns The data that was passed in.
+   * @param {string} page - The page you want to add data to.
+   * @param {string} id - The id of the user you want to get the data from.
+   * @param {any} data - The data to be inserted into the database.
+   * @returns The data that was passed with the appended user_id_cm.
    */
-  private async AppendData(page, id, data): Promise<any> {
+  private async AppendData(page: string, id: string, data: any): Promise<any> {
     const user = await this.userModel.GetByField<IUser>({ key: 'external_id', value: id })
     if (page === 'aprove-saving-finder' || page === 'insert-arn') data.user_id_cm = user[0].user_id_cm
 

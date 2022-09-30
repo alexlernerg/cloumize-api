@@ -1,15 +1,15 @@
 import { appConfig } from './../config'
 import { randomBytes } from 'crypto'
 import { Service } from 'typedi'
-import { UserHelper } from './../helpers/user.helper'
-import { IUserInput, IUser, IPasswordChange } from '../types/interfaces/services'
+import { UserHelper } from './../helpers'
+import { IUserInput, IUser, IPasswordChange } from '../types/interfaces'
 import argon2 from 'argon2'
-import EmailService from './auth/email.service'
+import { EmailService } from '../services'
 import jwt from 'jsonwebtoken'
 import { UserModel } from './../models'
 
 /**
- * @remarks Data Service
+ * @group Data Service
  * This Services is responsible of handling the user route logic.
  */
 @Service()
@@ -22,7 +22,7 @@ export default class UserService {
    * @param {EmailService} emailService - This is the service that will be injected into the
    * constructor.
    */
-  constructor(private userModel: UserModel, private userHelper: UserHelper, private emailService: EmailService) {}
+  constructor(private userModel: UserModel, private userHelper: UserHelper, private emailService: EmailService) { }
 
   /**
   * It creates a new user in the database

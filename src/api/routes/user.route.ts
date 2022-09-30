@@ -1,5 +1,6 @@
-import { NextFunction, Router } from 'express'
-import UserService from './../../services/user.service'
+import { IRequest } from './../../types/interfaces'
+import { NextFunction, Response, Router } from 'express'
+import { UserService } from './../../services'
 import { Container } from 'typedi'
 import {
   isUserAuth,
@@ -11,7 +12,7 @@ import {
 const route = Router()
 
 /**
- * @remarks USER ROUTES
+ * @group USER ROUTES
  */
 export default (app: Router): void => {
   app.use('/user', route)
@@ -20,7 +21,7 @@ export default (app: Router): void => {
    * This route is used to obtain the user data given a JWT in the req.header.
    * @returns The user data.
    */
-  route.get('/me', isUserAuth, async (req: any, res, next: NextFunction) => {
+  route.get('/me', isUserAuth, async (req: IRequest, res: Response, next: NextFunction) => {
     const userService = Container.get(UserService)
     console.info('Calling Post User endpoint with body: %o', req.token)
 
@@ -39,7 +40,7 @@ export default (app: Router): void => {
    * @param {any} data - any - The updated data to save.
    * @returns The user data updated result.
    */
-  route.put('/update', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
+  route.put('/update', isUserAuth, ValidatePasswordChange, async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const idUser = Number(req.token.id)
       const data = req.body
@@ -55,7 +56,7 @@ export default (app: Router): void => {
    * This route is used to obtain the user data given a JWT in the req.header.
    * @returns The result of deleting the given user from DB.
    */
-  route.put('/delete', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
+  route.put('/delete', isUserAuth, ValidatePasswordChange, async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const idUser = Number(req.token.id)
 
@@ -71,7 +72,7 @@ export default (app: Router): void => {
    * @param {any} data - any - The updated data to save.
    * @returns The user password updated result.
    */
-  route.put('/password-change', isUserAuth, ValidatePasswordChange, async (req: any, res, next: NextFunction) => {
+  route.put('/password-change', isUserAuth, ValidatePasswordChange, async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const idUser = Number(req.token.id)
       const data = req.body
@@ -88,7 +89,7 @@ export default (app: Router): void => {
    * @param {string} email - string - The user's email to send the link.
    * @returns The user password updated result.
    */
-  route.post('/recover-password', ValidateRecoverPassword, async (req: any, res, next: NextFunction) => {
+  route.post('/recover-password', ValidateRecoverPassword, async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const { email } = req.body
 
@@ -101,13 +102,13 @@ export default (app: Router): void => {
 
   /**
    * This route is used to change the old password when forgotten.
-   * @param {any} password - any - The updated password to save.
+   * @param {string} password - any - The updated password to save.
    * @returns The user password updated result.
    */
   route.post(
     '/change-password/:token',
     ValidateChangeRecoveredPassword,
-    async (req: any, res, next: NextFunction) => {
+    async (req: IRequest, res: Response, next: NextFunction) => {
       try {
         const { password } = req.body
         const { token } = req.params

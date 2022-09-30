@@ -4,10 +4,10 @@ import { appConfig } from './config'
 import loader from './loaders'
 
 /**
- * @remarks Data Service
+ * @category Start Server
  * This is the entry point of the Express App hosting the API.
  */
-async function startServer (): Promise<any> {
+async function startServer (): Promise<void> {
   const app = express()
   await loader({ expressApp: app })
 

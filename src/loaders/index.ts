@@ -7,7 +7,7 @@ interface IExpressLoader {
 }
 
 /**
- * @remarks LOADERS
+ * @category LOADERS
  */
 export default async ({ expressApp }: IExpressLoader): Promise<any> => {
   await mysqlLoader() ? console.info('✅ Connected to database') : console.info('🚫 Database error connection')

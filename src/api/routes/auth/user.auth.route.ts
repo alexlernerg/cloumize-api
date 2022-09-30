@@ -1,10 +1,13 @@
 import { Router, NextFunction } from 'express'
-import AuthService from '../../../services/auth/auth.user.service'
+import { AuthService } from '../../../services'
 import { Container } from 'typedi'
 import { ValidateLogin, ValidateSignUp } from '../../middlewares'
 
 const route = Router()
 
+/**
+ * @group USER AUTH ROUTES
+ */
 export default (app: Router): void => {
   app.use('/auth', route)
 

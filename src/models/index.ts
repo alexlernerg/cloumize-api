@@ -3,8 +3,8 @@ import { Service } from 'typedi'
 import BaseModel from './common/base.model'
 
 /**
- * @remarks USER MODEL
- * Implements a UserModel that inherits from the BaseModel.
+ * @group USER MODEL
+ * Implements all the basic CRUD MySQL operations.
  */
 @Service()
 export class UserModel extends BaseModel {

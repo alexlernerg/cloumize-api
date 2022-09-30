@@ -1,4 +1,4 @@
-import { IAxiosService } from './../types/interfaces/services'
+import { IAxiosService } from './../types/interfaces'
 import axios, { AxiosRequestConfig } from 'axios'
 import { appConfig } from '../config'
 
@@ -8,7 +8,7 @@ import { appConfig } from '../config'
  * @param {IAxiosService}  - page: The page you want to access.
  * @returns The response.data or the error.
  */
-export async function AxiosHelper({ page, _method, headers, data }: IAxiosService): Promise<void> {
+export async function AxiosHelper({ page, _method, headers, data }: IAxiosService): Promise<any> {
   console.log('METHOD: ', _method)
   console.log('PAGE: ', page)
   console.log('HEADERS: ', headers)

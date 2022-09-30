@@ -1,15 +1,15 @@
 import jwt from 'jsonwebtoken'
 import { appConfig } from '../../config'
-import { IUser, IUserLoginOutput } from '../../types/interfaces/services'
+import { IUser, IUserLoginOutput } from '../../types/interfaces'
 import argon2 from 'argon2'
 import { Service } from 'typedi'
 import { UserModel } from '../../models'
-import { UserHelper } from '../../helpers/user.helper'
+import { UserHelper } from '../../helpers'
 import { randomBytes } from 'crypto'
 import { v4 as uuidv4 } from 'uuid'
 
 /**
- * @remarks Auth User Service
+ * @group Auth User Service
  * This Services is responsible for the user auth routes logic.
  */
 @Service()
@@ -119,19 +119,9 @@ export default class AuthService {
 
     const sign = {
       id: user.external_id,
-      email: user.email
-      // exp: exp.getTime() / 1000
+      email: user.email,
+      exp: exp.getTime() / 1000
     }
-
-    /**
-     * A JWT means JSON Web Token, so basically it's a json that is _hashed_ into a string
-     * The cool thing is that you can add custom properties a.k.a metadata
-     * Here we are adding the userId, role and name
-     * Beware that the metadata is public and can be decoded without _the secret_
-     * but the client cannot craft a JWT to fake a userId
-     * because it doesn't have _the secret_ to sign it
-     * more information here: https://softwareontheroad.com/you-dont-need-passport
-     */
 
     return jwt.sign(sign, appConfig.JWT_USER_SECRECT)
   }

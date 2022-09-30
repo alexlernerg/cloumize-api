@@ -1,7 +1,8 @@
-import express, { NextFunction } from 'express'
+import { IRequest, ResponseError } from './../types/interfaces'
+import express, { Response, NextFunction } from 'express'
 import cors from 'cors'
 import { appConfig } from '../config'
-import routes from '../api'
+import routes from '../api/routes'
 
 interface IExpress {
   app: express.Router
@@ -46,7 +47,7 @@ export default ({ app }: IExpress): void => {
   /**
   * This is a middleware that is used to catch all the routes that are not defined in the application.
   */
-  app.use((req, res, next: NextFunction) => {
+  app.use((req: IRequest, res: Response, next: NextFunction) => {
     next({
       message: 'Not Found',
       status: 404
@@ -56,7 +57,7 @@ export default ({ app }: IExpress): void => {
   /**
    * This is a middleware that is used to catch all the routes that are not defined in the application.
    */
-  app.use((err: any, req: any, res: any, next: NextFunction) => {
+  app.use((err: ResponseError, req: IRequest, res: Response, next: NextFunction) => {
     /**
      * Handle 401 thrown by express-jwt library
      */
@@ -72,7 +73,7 @@ export default ({ app }: IExpress): void => {
   /**
   * This is a middleware that is used to catch all the routes that are not defined in the application.
   */
-  app.use((err: any, req: any, res: any, next: NextFunction) => {
+  app.use((err: ResponseError, req: IRequest, res: Response, next: NextFunction) => {
     res.status(err.status || 500)
     res.json({
       errors: {

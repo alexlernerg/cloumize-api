@@ -1,14 +1,16 @@
+import { IRequest } from './../../../types/interfaces'
 import e from 'express'
 import jwt from 'express-jwt'
 import { appConfig } from '../../../config'
 
 /**
  * If the authorization header is present and starts with the word "Token" or "Bearer", return the
- * token. Otherwise, return null
- * @param {any} req - any: This is the request object that is passed to the middleware function.
+ * token
+ * @param {IRequest} req - IRequest - this is the request object that is passed to the middleware
+ * function.
  * @returns The token from the header
  */
-const getTokenFromHeader = (req: any): void => {
+const getTokenFromHeader = (req: IRequest): string => {
   if (
     (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Token') ||
     (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer')
