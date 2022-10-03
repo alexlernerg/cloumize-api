@@ -1,5 +1,5 @@
 export default {
-/* The above code is setting the port and host for the server. */
+  /* The above code is setting the port and host for the server. */
   PORT: process.env.PORT || 8080,
   HOST: process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost',
 
@@ -45,7 +45,6 @@ export default {
   },
 
   /* This is the front end URL. */
-  FRONT_URL: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  FRONT_URL: process.env.CORS_ORIGIN || 'https://sandbobx-front.cloumize.com',
   DEV_URL: process.env.NODE_ENV !== 'production' ? 'http://192.168.0.14:4200' : ''
-
 }
