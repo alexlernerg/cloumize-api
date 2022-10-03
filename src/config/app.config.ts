@@ -45,6 +45,6 @@ export default {
   },
 
   /* This is the front end URL. */
-  FRONT_URL: process.env.CORS_ORIGIN || 'https://sandbobx-front.cloumize.com',
+  FRONT_URL: process.env.CORS_ORIGIN || 'https://sandbobx-front.cloumize.com/',
   DEV_URL: process.env.NODE_ENV !== 'production' ? 'http://192.168.0.14:4200' : ''
 }
