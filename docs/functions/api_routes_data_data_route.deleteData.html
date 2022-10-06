@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>default | winbase-api</title><meta name="description" content="Documentation for winbase-api"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script async src="../assets/search.js" id="search-script"></script><link rel="stylesheet" href="../assets/custom.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>deleteData | winbase-api</title><meta name="description" content="Documentation for winbase-api"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script async src="../assets/search.js" id="search-script"></script><link rel="stylesheet" href="../assets/custom.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
 <div class="tsd-toolbar-contents container">
 <div class="table-cell" id="tsd-search" data-base="..">
 <div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
@@ -11,16 +11,28 @@
 <div class="tsd-page-title">
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">winbase-api</a></li>
-<li><a href="../modules/api_routes.html">api/routes</a></li>
-<li><a href="api_routes.default.html">default</a></li></ul>
-<h1>Function default</h1></div>
+<li><a href="../modules/api_routes_data_data_route.html">api/routes/data/data.route</a></li>
+<li><a href="api_routes_data_data_route.deleteData.html">deleteData</a></li></ul>
+<h1>Function deleteData</h1></div>
 <section class="tsd-panel">
 <ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-<li class="tsd-signature tsd-anchor-link" id="default">default<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Router</span><a href="#default" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="deleteData">delete<wbr/>Data<span class="tsd-signature-symbol">(</span>route<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRouter</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRouter</span><a href="#deleteData" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></li>
 <li class="tsd-description">
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Router</span></h4><aside class="tsd-sources">
+<div class="tsd-comment tsd-typography"><p>It deletes data from the database</p>
+
+<h3>Returns</h3><p>A router with a delete method that takes a path with a page parameter, two middlewares,
+and a callback function that returns a json object with the result.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>route: <span class="tsd-signature-type">IRouter</span></h5>
+<div class="tsd-comment tsd-typography"><p>IRouter - this is the route that we&#39;re going to be using.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">IRouter</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in src/api/routes/index.ts:8</li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://bitbucket.org/change-the-block/cloumize-api/src/9267642/src/api/routes/data/data.route.ts#lines-97">src/api/routes/data/data.route.ts:97</a></li></ul></aside></li></ul></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tree">
 <div class="tree-settings">
@@ -90,19 +102,53 @@
 <ul class="js-category-list category" data-id="root-src-api-routes-auth">
 <li><a class="category__link js-category-link category__link--ts" href="../modules/api_routes_auth_user_auth_route.html" data-id="/modules/api_routes_auth_user_auth_route.html">user.auth.route.ts</a>
 <ul>
-<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_auth_user_auth_route.default.html" data-id="/functions/api_routes_auth_user_auth_route.default.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>default</a></li></ul></li></ul></li>
-<li><a class="category__link js-category-link category__link--ts" href="../modules/api_routes.html" data-id="/modules/api_routes.html">index.ts</a>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_auth_user_auth_route.logIn.html" data-id="/functions/api_routes_auth_user_auth_route.logIn.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>logIn</a></li>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_auth_user_auth_route.signUp.html" data-id="/functions/api_routes_auth_user_auth_route.signUp.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>signUp</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/routers_auth.html" data-id="/modules/routers_auth.html">index.ts</a>
 <ul>
-<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes.default.html" data-id="/functions/api_routes.default.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>default</a></li></ul></li>
-<li><a class="category__link js-category-link category__link--ts" href="../modules/api_routes_data_route.html" data-id="/modules/api_routes_data_route.html">data.route.ts</a>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="routers_auth.default.html" data-id="/functions/routers_auth.default.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>default</a></li></ul></li></ul></li>
+<li><span class="js-category-title category__title" data-id="root-src-api-routes-data">
+<div class="category__folder" data-id="root-src-api-routes-data"></div>data</span>
+<ul class="js-category-list category" data-id="root-src-api-routes-data">
+<li><a class="category__link js-category-link category__link--ts" href="../modules/api_routes_data_data_route.html" data-id="/modules/api_routes_data_data_route.html">data.route.ts</a>
 <ul>
-<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_data_route.default.html" data-id="/functions/api_routes_data_route.default.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>default</a></li></ul></li>
-<li><a class="category__link js-category-link category__link--ts" href="../modules/api_routes_payment_route.html" data-id="/modules/api_routes_payment_route.html">payment.route.ts</a>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_data_data_route.deleteData.html" data-id="/functions/api_routes_data_data_route.deleteData.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>deleteData</a></li>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_data_data_route.getData.html" data-id="/functions/api_routes_data_data_route.getData.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>getData</a></li>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_data_data_route.postData.html" data-id="/functions/api_routes_data_data_route.postData.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>postData</a></li>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_data_data_route.putData.html" data-id="/functions/api_routes_data_data_route.putData.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>putData</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/routers_data.html" data-id="/modules/routers_data.html">index.ts</a>
 <ul>
-<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_payment_route.default.html" data-id="/functions/api_routes_payment_route.default.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>default</a></li></ul></li>
-<li><a class="category__link js-category-link category__link--ts" href="../modules/api_routes_user_route.html" data-id="/modules/api_routes_user_route.html">user.route.ts</a>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="routers_data.default.html" data-id="/functions/routers_data.default.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>default</a></li></ul></li></ul></li>
+<li><span class="js-category-title category__title" data-id="root-src-api-routes-payment">
+<div class="category__folder" data-id="root-src-api-routes-payment"></div>payment</span>
+<ul class="js-category-list category" data-id="root-src-api-routes-payment">
+<li><a class="category__link js-category-link category__link--ts" href="../modules/api_routes_payment_payment_route.html" data-id="/modules/api_routes_payment_payment_route.html">payment.route.ts</a>
 <ul>
-<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_user_route.default.html" data-id="/functions/api_routes_user_route.default.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>default</a></li></ul></li></ul></li></ul></li>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_payment_payment_route.consultingPrice.html" data-id="/functions/api_routes_payment_payment_route.consultingPrice.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>consultingPrice</a></li>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_payment_payment_route.createCheckoutSession.html" data-id="/functions/api_routes_payment_payment_route.createCheckoutSession.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>createCheckoutSession</a></li>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_payment_payment_route.createPortalSession.html" data-id="/functions/api_routes_payment_payment_route.createPortalSession.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>createPortalSession</a></li>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_payment_payment_route.updatePrice.html" data-id="/functions/api_routes_payment_payment_route.updatePrice.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>updatePrice</a></li>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_payment_payment_route.webhook.html" data-id="/functions/api_routes_payment_payment_route.webhook.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>webhook</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/routers_payment.html" data-id="/modules/routers_payment.html">index.ts</a>
+<ul>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="routers_payment.default.html" data-id="/functions/routers_payment.default.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>default</a></li></ul></li></ul></li>
+<li><span class="js-category-title category__title" data-id="root-src-api-routes-user">
+<div class="category__folder" data-id="root-src-api-routes-user"></div>user</span>
+<ul class="js-category-list category" data-id="root-src-api-routes-user">
+<li><a class="category__link js-category-link category__link--ts" href="../modules/api_routes_user_user_route.html" data-id="/modules/api_routes_user_user_route.html">user.route.ts</a>
+<ul>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_user_user_route.changePasswordToken.html" data-id="/functions/api_routes_user_user_route.changePasswordToken.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>changePasswordToken</a></li>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_user_user_route.deleteUser.html" data-id="/functions/api_routes_user_user_route.deleteUser.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>deleteUser</a></li>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_user_user_route.me.html" data-id="/functions/api_routes_user_user_route.me.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>me</a></li>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_user_user_route.passwordChange.html" data-id="/functions/api_routes_user_user_route.passwordChange.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>passwordChange</a></li>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_user_user_route.recoverPassword.html" data-id="/functions/api_routes_user_user_route.recoverPassword.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>recoverPassword</a></li>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="api_routes_user_user_route.update.html" data-id="/functions/api_routes_user_user_route.update.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>update</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/routers_user.html" data-id="/modules/routers_user.html">index.ts</a>
+<ul>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="routers_user.default.html" data-id="/functions/routers_user.default.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>default</a></li></ul></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/routers.html" data-id="/modules/routers.html">index.ts</a>
+<ul>
+<li class="tsd-kind-function tsd-parent-kind-module"><a class="category__link js-category-link" href="routers.default.html" data-id="/functions/routers.default.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>default</a></li></ul></li></ul></li></ul></li>
 <li><span class="js-category-title category__title" data-id="root-src-config">
 <div class="category__folder" data-id="root-src-config"></div>config</span>
 <ul class="js-category-list category" data-id="root-src-config">
@@ -232,7 +278,9 @@
 <li class="tsd-kind-interface tsd-parent-kind-module"><a class="category__link js-category-link" href="../interfaces/types_interfaces_services.IUserLoginOutput.html" data-id="/interfaces/types_interfaces_services.IUserLoginOutput.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg>IUserLoginOutput</a></li></ul></li></ul></li></ul></li>
 <li><a class="category__link js-category-link category__link--ts" href="../modules/index.html" data-id="/modules/index.html">index.ts</a>
 <ul></ul></li></ul></li>
-<li><a class="category__link js-category-link category__link--ts" href="../modules/api_middlewares_api_key_middleware.html" data-id="/modules/api_middlewares_api_key_middleware.html"></a>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/api_ws_front.html" data-id="/modules/api_ws_front.html"></a>
+<ul></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/api_ws_websocket.html" data-id="/modules/api_ws_websocket.html"></a>
 <ul></ul></li></ul></div></div></div></div>
 <div class="container tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>

@@ -3,7 +3,7 @@ import { Service } from 'typedi'
 import _DatabaseModel from './database.model'
 import { Database } from '../../types/interfaces'
 
-/**
+/** {@inheritDoc _DatabaseModel}
  * @group BASE MODEL
  * Implements all the basic CRUD MySQL operations.
  */
@@ -63,7 +63,7 @@ export default class BaseModel extends _DatabaseModel {
    */
   public async GetByField<Type>(data: any): Promise<Type[]> {
     const { key, value } = data
-    return await this.executeQuery(`SELECT * FROM ${this.table} WHERE ${key} = ? ORDER BY ${this.id} DESC`, [value])
+    return await this.executeQuery(`SELECT * FROM ${this.table} WHERE ${key} = ? `, [value])
   }
 
   /**

@@ -1,23 +1,21 @@
-import { Router, NextFunction } from 'express'
+import { IRouter, NextFunction } from 'express'
 import { AuthService } from '../../../services'
 import { Container } from 'typedi'
 import { ValidateLogin, ValidateSignUp } from '../../middlewares'
 
-const route = Router()
+/**
+ * @group Auth Routes.
+ * This are the user auth routes.
+ */
 
 /**
- * @group USER AUTH ROUTES
+ * It takes a route, and returns a route with a post request that validates the login, and then calls
+ * the login function in the auth service.
+ * @param {IRouter} route - IRouter - this is the express router that we're using to create our routes.
+ * @returns A router with a post method that takes a path, a middleware, and a callback function that returns a json object with the result.
  */
-export default (app: Router): void => {
-  app.use('/auth', route)
-
-  /**
-   * This route is used to login into the App.
-   * @param {string} email - string - The user email.
-   * @param {string} password - string - The user password.
-   * @returns A JWT.
-   */
-  route.post('/login', ValidateLogin, async (req, res, next: NextFunction) => {
+export const logIn = (route: IRouter): IRouter => {
+  return route.post('/login', ValidateLogin, async (req, res, next: NextFunction) => {
     try {
       const { email, password } = req.body
       const login = await Container.get(AuthService).Login(email, password)
@@ -28,14 +26,16 @@ export default (app: Router): void => {
       return next(e)
     }
   })
+}
 
-  /**
-   * This route is used to signup into the App.
-   * @param {string} email - string - The user email.
-   * @param {string} password - string - The user password.
-   * @returns A JWT.
-   */
-  route.post(
+/**
+ * It takes a route as an argument, and returns a route with a post request that validates the request
+ * body, and then calls the signup function in the auth service.
+ * @param {IRouter} route - IRouter - this is the route that we're going to add the signup route to.
+ * @returns A router with a post method that takes a path, a middleware, and a callback function that returns a json object with the result.
+ */
+export const signUp = (route: IRouter): IRouter => {
+  return route.post(
     '/signup',
     ValidateSignUp,
     async (req, res, next: NextFunction) => {

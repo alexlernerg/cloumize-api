@@ -32,7 +32,7 @@ export default class AuthService {
     const user: any = response[0]
 
     if (!user) {
-      throw new Error('Usuario no registrado')
+      throw new Error('User not registered')
     }
 
     /**
@@ -57,7 +57,7 @@ export default class AuthService {
        */
       return { user, token }
     } else {
-      throw new Error('Contraseña errónea')
+      throw new Error('Wrong password')
     }
   }
 
@@ -72,7 +72,7 @@ export default class AuthService {
     const _user = response[0]
 
     if (_user) {
-      throw new Error('Usuario registrado')
+      throw new Error('User already registered')
     }
 
     const salt = randomBytes(32)
@@ -94,13 +94,13 @@ export default class AuthService {
     const { insertId } = await this.userModel.Create(newUser)
 
     if (!insertId) {
-      throw new Error('El usuario no se ha creado correctamente')
+      throw new Error('User not created')
     }
 
     const { affectedRows } = await this.userModel.Put(insertId, { user_id_cm: insertId })
 
     if (affectedRows === 0) {
-      throw new Error('El user_cm_id no se ha insertado correctamente')
+      throw new Error('User ID not inserted')
     }
 
     return true

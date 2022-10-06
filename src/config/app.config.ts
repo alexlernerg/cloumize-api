@@ -1,13 +1,20 @@
 export default {
-  /* The above code is setting the port and host for the server. */
+  /**
+  This is setting the port and host for the server.
+  */
   PORT: process.env.PORT || 8080,
   HOST: process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost',
 
-  /* This is the secret key for the JWT token. */
+  /**
+    This is the secret key for the JWT token generation.
+   */
+  JWT_RECOVER_EMAIL_SECRET: '00bbac6bf85b2c0132180d23ee237bcf74a492f71087ac57e5f4326b321b1480',
   JWT_USER_SECRECT: '00bbac6bf85b2c0132180d23ee237bcf74a492f71087ac57e5f4326b321b1480',
   JWT_ALGORITHM: 'HS256',
 
-  /* This is the database connection. */
+  /**
+    Here we have all the constants for the Database connection.
+   */
   DATABASE: {
     host: 'database-sandbox.cccmjxkosivs.eu-west-3.rds.amazonaws.com',
     post: '3306',
@@ -16,9 +23,17 @@ export default {
     database: 'cloumize_dev_lambda'
   },
 
-  /* This is the API for the server. */
+  /**
+    Here we have all the constants for the URL API calls
+   */
   API: {
+    /**
+      Main API prefix.
+     */
     PREFIX: '/api',
+    /**
+      Maps the short named URLS to their Cloumize API URLS.
+     */
     URLS: {
       'insert-arn': 'https://aw2xmogbpb.execute-api.eu-west-3.amazonaws.com/dev/insert-arn',
       'aprove-saving-finder': 'https://aw2xmogbpb.execute-api.eu-west-3.amazonaws.com/dev/sendsesemail',
@@ -31,10 +46,14 @@ export default {
     }
   },
 
-  /* This is the API key for the server. */
+  /**
+   This is ideally an internal API_KEY that is required for API-to-API secure communication.
+  */
   API_KEY: '9b8c61ec-1818-4647-b038-bd2676c522b7',
 
-  /* This is the email server. */
+  /**
+   This are the settings for automated emails.
+  */
   MAIL: {
     host: 'smtp.gmail.com',
     service: 'gmail',
@@ -44,7 +63,9 @@ export default {
     }
   },
 
-  /* This is the front end URL. */
-  FRONT_URL: process.env.CORS_ORIGIN || 'https://sandbobx-front.cloumize.com/',
+  /**
+   This are client URL config constants for CORS settings.
+  */
+  FRONT_URL: process.env.CORS_ORIGIN || 'https://beta.cloumize.com/',
   DEV_URL: process.env.NODE_ENV !== 'production' ? 'http://192.168.0.14:4200' : ''
 }

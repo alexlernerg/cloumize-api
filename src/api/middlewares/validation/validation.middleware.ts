@@ -3,7 +3,6 @@ import { IRequest } from './../../../types/interfaces'
 import { NextFunction, Response } from 'express'
 import { appConfig } from '../../../config'
 
-/* Validating the data that is being sent to the server. */
 const ValidateUser = celebrate({
   body: Joi.object({
     idUser: Joi.number().optional(),

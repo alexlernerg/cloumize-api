@@ -1,14 +1,20 @@
+import { IRouter } from 'express'
 import { IAxiosService } from './../types/interfaces'
 import axios, { AxiosRequestConfig } from 'axios'
 import { appConfig } from '../config'
 
 /**
- * It's a function that receives an object with the following properties: page, _method, headers, data.
- * It returns a promise that resolves to a void
- * @param {IAxiosService}  - page: The page you want to access.
- * @returns The response.data or the error.
+ * It takes in an object with a page, method, headers, and data, and returns a promise with the
+ * response data
+ * @param {IAxiosService}  - IAxiosService
+ * @returns An object with the following properties:
+ *   - data: The data that was returned from the server
+ *   - status: The HTTP status code
+ *   - statusText: The HTTP status text
+ *   - headers: The HTTP headers
+ *   - config: The config that was used to generate the request
  */
-export async function AxiosHelper({ page, _method, headers, data }: IAxiosService): Promise<any> {
+export async function AxiosHelper({ page, _method, headers, data }: IAxiosService): Promise<IRouter> {
   console.log('METHOD: ', _method)
   console.log('PAGE: ', page)
   console.log('HEADERS: ', headers)

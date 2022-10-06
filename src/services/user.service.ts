@@ -22,7 +22,7 @@ export default class UserService {
    * @param {EmailService} emailService - This is the service that will be injected into the
    * constructor.
    */
-  constructor(private userModel: UserModel, private userHelper: UserHelper, private emailService: EmailService) { }
+  constructor(private userModel: UserModel, private userHelper: UserHelper) { }
 
   /**
   * It creates a new user in the database
@@ -36,7 +36,7 @@ export default class UserService {
     const isUserResitered = await this.isUserRegistered(user.email)
 
     if (isUserResitered) {
-      throw new Error('El empleado ya está registrado')
+      throw new Error('User already registered')
     }
 
     const newUser: IUser = {
@@ -48,7 +48,7 @@ export default class UserService {
     const { insertId } = await this.userModel.Create(newUser)
 
     if (!insertId) {
-      throw new Error('El usuario no se ha creado')
+      throw new Error('User not created')
     }
 
     return { isCreated: !!insertId }
@@ -72,29 +72,29 @@ export default class UserService {
 
   /**
    * It updates the password of a user
-   * @param {number} idUser - number, data: any
+   * @param {number} idUser - number
    * @param {any} data - any
    * @returns a promise with an object that contains a boolean value.
    */
-  async Update(idUser: number, data: any): Promise<{ isUpdated: boolean }> {
-    const response = await this.userModel.Get<IUser>(idUser)
+  async Update(idUser: string, data: any): Promise<{ isUpdated: boolean }> {
+    const response: IUser[] = await this.userModel.GetByField({ key: 'external_id', value: idUser })
     const user = response[0]
 
     if (!user) {
-      throw new Error('Usuario no registrado')
+      throw new Error('User not registered')
     }
 
     const validPassword = await argon2.verify(user.password, data.lastPassword)
 
     if (!validPassword) {
-      throw new Error('La contraseña anterior no coincide con la guardada')
+      throw new Error('Invalid password')
     }
 
-    data.updated_at = new Date()
-    const { changedRows } = await this.userModel.Put<IUser>(idUser, data)
+    // data.updated_at = new Date()
+    const { changedRows } = await this.userModel.Put<IUser>(Number(user.id), data)
 
     if (!changedRows) {
-      throw new Error('No se ha actualizado la contraseña')
+      throw new Error('Password not updated')
     }
 
     return { isUpdated: changedRows > 0 }
@@ -110,13 +110,13 @@ export default class UserService {
     const user = response[0]
 
     if (!user) {
-      throw new Error('Usuario no registrado')
+      throw new Error('User not registered')
     }
 
     const { changedRows } = await this.userModel.Delete(idUser)
 
     if (!changedRows) {
-      throw new Error('No se ha actualizado la contraseña')
+      throw new Error('Password not updated')
     }
 
     return { isDeleted: changedRows > 0 }
@@ -130,18 +130,18 @@ export default class UserService {
    * @param {IPasswordChange} data - IPasswordChange
    * @returns a promise that resolves to an object with a boolean property.
    */
-  async ChangePassword(idUser: number, data: IPasswordChange): Promise<{ isPasswordChanged: boolean }> {
-    const response = await this.userModel.Get<IUser>(idUser)
+  async ChangePassword(idUser: string, data: IPasswordChange): Promise<{ isPasswordChanged: boolean }> {
+    const response: IUser[] = await this.userModel.GetByField({ key: 'external_id', value: idUser })
     const user = response[0]
 
     if (!user) {
-      throw new Error('Usuario no registrado')
+      throw new Error('User not registered')
     }
 
     const validPassword = await argon2.verify(user.password, data.lastPassword)
 
     if (!validPassword) {
-      throw new Error('La contraseña anterior no coincide con la guardada')
+      throw new Error('Invalid password')
     }
 
     const salt = randomBytes(32)
@@ -154,13 +154,13 @@ export default class UserService {
     }
 
     changeData.updated_at = new Date()
-    const { changedRows } = await this.userModel.Put<IUser>(idUser, changeData)
+    const { isUpdated } = await this.Update(idUser, changeData)
 
-    if (!changedRows) {
-      throw new Error('No se ha actualizado la contraseña')
+    if (!isUpdated) {
+      throw new Error('Password not updated')
     }
 
-    return { isPasswordChanged: changedRows > 0 }
+    return { isPasswordChanged: isUpdated }
   }
 
   /**
@@ -169,22 +169,26 @@ export default class UserService {
    * password.
    * @returns { emailSended: boolean }
    */
-  async RecoverPassword(emailInput: string): Promise<{ emailSended: boolean }> {
+  async RecoverPassword(email: string): Promise<{ emailSended: boolean }> {
     try {
-      const user: IUser[] = await this.userModel.GetByField({ key: 'email', value: emailInput })
-      const { email, salt } = user[0]
+      const user: IUser[] = await this.userModel.GetByField({ key: 'email', value: email })
+      // eslint-disable-next-line camelcase
+      // const { external_id } = user[0]
 
-      if (!email) {
-        throw new Error('Ha habido un error. Inténtelo de nuevo')
+      if (!user) {
+        throw new Error('Error. Try again')
       }
-
-      const token = this.generateRecoverToken(email, salt)
-      const result = await this.emailService.SEND_RECOVER_PASSWORD(email, token)
+      const emailService = new EmailService()
+      // console.log('id', external_id)
+      const token = this.generateRecoverToken(email)
+      console.log('result', token, email)
+      console.log('transporter', emailService)
+      const result = await emailService.SEND_RECOVER_PASSWORD(email, token)
       const emailSended = result.messageId.length > 0
 
       return { emailSended }
     } catch (error) {
-      throw new Error('Se ha producido un error al recuperar su contraseña.')
+      throw new Error('Password recovery failed')
     }
   }
 
@@ -198,26 +202,27 @@ export default class UserService {
    */
   async ChangeRecoveredPassword(token: string, password: string): Promise<{ passwordChanged: boolean }> {
     try {
-      const { salt, email } = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())
-      const response = await this.userModel.GetByField({ value: 'email', key: email })
+      jwt.verify(token, appConfig.JWT_RECOVER_EMAIL_SECRET)
+      const { email } = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())
 
-      if (!response) {
-        throw new Error('Ha habido un error. Inténtelo de nuevo')
-      }
+      const response: IUser[] = await this.userModel.GetByField({ key: 'email', value: email })
       const user = response[0]
-      const idUser = user['idUser']
+
+      if (!user) {
+        throw new Error('Error. Try again')
+      }
+      const idUser = user['id']
 
       const newSalt = randomBytes(32)
       const hashedPassword = await argon2.hash(password, { salt: newSalt })
       const saltToSave = newSalt.toString('hex')
+      console.log('USER', idUser, saltToSave, hashedPassword)
 
-      const newUser = { saltToSave, hashedPassword, salt }
-
-      const { changedRows } = await this.userModel.Put(idUser, newUser)
+      const { changedRows } = await this.userModel.Put(Number(idUser), { salt: saltToSave, password: hashedPassword })
 
       return { passwordChanged: changedRows > 0 }
     } catch (error) {
-      throw new Error('No se ha podido cambiar la contraseña')
+      throw new Error('Password change failed')
     }
   }
 
@@ -241,13 +246,14 @@ export default class UserService {
    * @param {string} salt - A random string that is used to generate the token.
    * @returns A JWT token
    */
-  private generateRecoverToken(email: string, salt: string): string {
+  private generateRecoverToken(email: string): string {
+    console.log('id + email', email)
     return jwt.sign(
       {
-        email,
-        salt
+        exp: Math.floor(Date.now() / 1000) + (60 * 15), // EXPIRES IN 15 MINUTES
+        email
       },
-      appConfig.JWT_USER_SECRECT
+      appConfig.JWT_RECOVER_EMAIL_SECRET
     )
   }
 }

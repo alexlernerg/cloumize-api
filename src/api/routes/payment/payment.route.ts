@@ -1,28 +1,25 @@
-import { NextFunction, Router } from 'express'
-import { appConfig } from '../../config'
-// import isAuth from '../middlewares/is-auth.middleware'
-const express = require('express')
+import express, { IRouter, NextFunction } from 'express'
+import { appConfig } from '../../../config'
 
 // This is your test secret API key.
 const stripe = require('stripe')(
   'sk_test_51LSlY8GDFiXM20oc9zV7T4a3adJ9kf0mTv6RGEvFr3B5id1Yc9zpTAyMDvitzWrKVwEJVvK8nup9UOGQhby40lEO00ChKgSTZg'
 )
 
-const route = Router()
+/**
+ * @group Payment Routes.
+ * This are the stripe payment routes.
+ */
 
 /**
- * @group PAYMENT ROUTES
+ * It takes a route, and returns a route that responds to a POST request to the path
+ * `/consulting-price` with a list of prices from Stripe
+ * @param {IRouter} route - IRouter - this is the Express Router object that we're using to create the
+ * route.
+ * @returns A function that takes a route as a parameter and returns a callback function that takes a request,
+ * response, and next as parameters.
  */
-export default (app: Router): void => {
-  app.use(express.static('public'))
-  app.use(express.urlencoded({ extended: true }))
-  app.use(route)
-
-  /**
-   * This route is used to consult prices of services from a prices list.
-   * @param {string} lookup_key - string - The reference to the service.
-   * @returns The result of the query to the stripe API.
-   */
+export const consultingPrice = (route: IRouter): void => {
   route.post('/consulting-price', async (req, res, next) => {
     const prices = await stripe.prices.list({
       lookup_keys: [req.body.lookup_key],
@@ -30,14 +27,15 @@ export default (app: Router): void => {
     })
     res.send({ prices })
   })
+}
 
-  /**
-   * This route is used to update the price of service.
-   * Once implemented it should only be callable by an ADMIN role.
-   * @param {string} product - string - The reference to the product.
-   * @param {number} newPrice - number - The new price for that product.
-   * @returns The result of the query to the stripe API.
-   */
+/**
+ * We get all the subscriptions, we get the product we want to update, we create a new price, we update
+ * the subscription with the new price
+ * @param {IRouter} route - IRouter
+ * @returns The subscription object
+ */
+export const updatePrice = (route: IRouter): void => {
   route.post('/update-price', async (req, res, next) => {
     const newPrice = 11111 // El precio debe ser enviado desde su backend
     const product = 'Cloumize' // El producto a actualizar debe ser enviado desde su backend
@@ -74,12 +72,14 @@ export default (app: Router): void => {
     })
     res.send({ subscription })
   }) // Admin route
+}
 
-  /**
-   * This route is used to create a payment intent.
-   * @param {string} lookup_key - string - The reference to the service.
-   * @returns The result of the query to the stripe API.
-   */
+/**
+ * It creates a checkout session for a given product
+ * @param {IRouter} route - IRouter - This is the route object that we created in the previous step.
+ * @returns A function that takes in a route and returns a route.
+ */
+export const createCheckoutSession = (route: IRouter): void => {
   route.post('/create-checkout-session', async (req, res, next) => {
     const prices = await stripe.prices.list({
       lookup_keys: [req.body.lookup_key],
@@ -100,11 +100,14 @@ export default (app: Router): void => {
     })
     res.send({ sessionURL: session.url })
   })
+}
 
-  /**
-   * This route is used to create a payment intent.
-   * @returns The result of the query to the stripe API.
-   */
+/**
+ * It creates a billing portal session for a customer
+ * @param {IRouter} route - IRouter
+ * @returns The url to the billing portal.
+ */
+export const createPortalSession = (route: IRouter): void => {
   route.post('/create-portal-session', async (req: any, res, next: NextFunction) => {
     // For demonstration purposes, we're using the Checkout session to retrieve the customer ID.
     // Typically this is stored alongside the authenticated user in your database.
@@ -124,11 +127,15 @@ export default (app: Router): void => {
 
     res.send({ portalSession: portalSession.url })
   })
+}
 
-  /**
-   * This route is used to subscribe to a webhook and litsen to certain events.
-   * @returns The event-casted information.
-   */
+/**
+ * It receives a Stripe webhook event, verifies the event's signature, and then logs the event's type
+ * and status
+ * @param {IRouter} route - IRouter
+ * @returns A function that takes a route and returns a function that takes a request and response.
+ */
+export const webhook = (route: IRouter): void => {
   route.post('/webhook', express.raw({ type: 'application/json' }), (request, response) => {
     let event = request.body
     // Replace this endpoint secret with your endpoint's unique secret

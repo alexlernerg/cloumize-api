@@ -2,7 +2,7 @@ import { Method } from 'axios'
 
 /* eslint-disable camelcase */
 export interface IUser {
-  id?: string| number;
+  id?: string;
   user_id_cm?: string|number;
   email?: string;
   password?: string;
