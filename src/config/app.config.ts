@@ -66,6 +66,6 @@ export default {
   /**
    This are client URL config constants for CORS settings.
   */
-  FRONT_URL: process.env.CORS_ORIGIN || 'https://beta.cloumize.com/',
+  FRONT_URL: process.env.CORS_ORIGIN || 'https://beta2.cloumize.com/',
   DEV_URL: process.env.NODE_ENV !== 'production' ? 'http://192.168.0.14:4200' : ''
 }
